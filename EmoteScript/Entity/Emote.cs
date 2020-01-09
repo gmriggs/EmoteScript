@@ -278,6 +278,7 @@ namespace EmoteScript
                     key = ((PropertyAttribute2nd)Stat).ToString();
                     break;
 
+                case EmoteType.InqSkillStat:
                 case EmoteType.InqRawSkillStat:
                     key = ((Skill)Stat).ToString();
                     break;

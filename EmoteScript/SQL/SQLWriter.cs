@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+
+using EmoteScript.Entity;
+using EmoteScript.Entity.Enum;
+
+using EmoteScript.StringMap;
 
 namespace EmoteScript.SQL
 {
@@ -14,7 +18,7 @@ namespace EmoteScript.SQL
             {
                 var categoryStr = $"{(int)emoteSet.Category} /* {emoteSet.Category} */";
                 var probability = GetSQLString(emoteSet.Probability);
-                var weenieClassIdStr = GetSQLString(emoteSet.WeenieClassId);
+                var weenieClassIdStr = GetSQLString(emoteSet.WeenieClassId) + GetWeenieName(emoteSet.WeenieClassId);
                 var styleStr = emoteSet.Style != null ? $"{(int)emoteSet.Style} /* {emoteSet.Style} */" : "NULL";
                 var substyleStr = emoteSet.Substyle != null ? $"{(int)emoteSet.Substyle} /* {emoteSet.Substyle} */" : "NULL";
                 var quest = GetSQLString(emoteSet.Quest);
@@ -61,25 +65,26 @@ namespace EmoteScript.SQL
                 var max64 = GetSQLString(emote.Max64);
                 var minDbl = GetSQLString(emote.MinFloat);
                 var maxDbl = GetSQLString(emote.MaxFloat);
-                var statStr = GetSQLString(emote.Stat);
+                var statStr = GetSQLString(emote.Stat) + GetStatName(emote.Stat, emote.Type);
                 var display = emote.Display != null ? Convert.ToInt32(emote.Display).ToString() : "NULL";
-                var amount = GetSQLString(emote.Amount);
+                var amountStr = GetSQLString(emote.Amount) + GetAmountName(emote.Amount, emote.Type);
                 var amount64 = GetSQLString(emote.Amount64);
                 var heroXP64 = GetSQLString(emote.HeroXP64);
                 var percent = GetSQLString(emote.Percent);
-                var spellIdStr = emote.SpellId != null ? $"{(int)emote.SpellId} /* {emote.SpellId} */" : "NULL";
+                var spellIdStr = emote.SpellId != null ? (int)emote.SpellId + GetSpellName(emote.SpellId) : "NULL";
                 var wealthRating = GetSQLString(emote.WealthRating);
                 var treasureClass = GetSQLString(emote.TreasureClass);
                 var treasureType = GetSQLString(emote.TreasureType);
                 var pScriptStr = emote.PScript != null ? $"{(int)emote.PScript} /* {emote.PScript} */" : "NULL";
                 var soundStr = emote.Sound != null ? $"{(int)emote.Sound} /* {emote.Sound} */" : "NULL";
                 var destinationTypeStr = emote.DestinationType != null ? $"{(int)emote.DestinationType} /* {emote.DestinationType} */" : "NULL";
-                var weenieClassIdStr = GetSQLString(emote.WeenieClassId);
+                var weenieClassIdStr = GetSQLString(emote.WeenieClassId) + GetWeenieName(emote.WeenieClassId);
                 var stackSize = GetSQLString(emote.StackSize);
                 var palette = GetSQLString(emote.Palette);
                 var shade = GetSQLString(emote.Shade);
                 var tryToBond = GetSQLString(emote.TryToBond);
-                var objCellId = emote.ObjCellId != null ? $"0x{(uint)emote.ObjCellId:X8} /* {emote.ObjCellId} */" : "NULL";
+                var objCellId = emote.ObjCellId != null ? $"0x{(uint)emote.ObjCellId:X8}" : "NULL";
+                var teleloc = GetTeleLoc(emote.Position);
                 var originX = GetSQLString(emote.OriginX);
                 var originY = GetSQLString(emote.OriginY);
                 var originZ = GetSQLString(emote.OriginZ);
@@ -88,7 +93,7 @@ namespace EmoteScript.SQL
                 var anglesY = GetSQLString(emote.AnglesY);
                 var anglesZ = GetSQLString(emote.AnglesZ);
 
-                sqlLines.Add($"{prefix}(@parent_id, {i}, {typeStr}, {delay}, {extent}, {motionStr}, {message}, {testString}, {min}, {max}, {min64}, {max64}, {minDbl}, {maxDbl}, {statStr}, {display}, {amount}, {amount64}, {heroXP64}, {percent}, {spellIdStr}, {wealthRating}, {treasureClass}, {treasureType}, {pScriptStr}, {soundStr}, {destinationTypeStr}, {weenieClassIdStr}, {stackSize}, {palette}, {shade}, {tryToBond}, {objCellId}, {originX}, {originY}, {originZ}, {anglesW}, {anglesX}, {anglesY}, {anglesZ});");
+                sqlLines.Add($"{prefix}(@parent_id, {i}, {typeStr}, {delay}, {extent}, {motionStr}, {message}, {testString}, {min}, {max}, {min64}, {max64}, {minDbl}, {maxDbl}, {statStr}, {display}, {amountStr}, {amount64}, {heroXP64}, {percent}, {spellIdStr}, {wealthRating}, {treasureClass}, {treasureType}, {pScriptStr}, {soundStr}, {destinationTypeStr}, {weenieClassIdStr}, {stackSize}, {palette}, {shade}, {tryToBond}, {objCellId}{teleloc}, {originX}, {originY}, {originZ}, {anglesW}, {anglesX}, {anglesY}, {anglesZ});");
             }
 
             sqlLines.Add(string.Empty);
@@ -104,6 +109,124 @@ namespace EmoteScript.SQL
                 return $"'{str.Replace("'", "''")}'";
             else
                 return obj.ToString();
+        }
+
+        public static Dictionary<uint, string> WeenieNames;
+        public static Dictionary<uint, string> WeenieClassNames;
+        
+        public static string GetWeenieName(uint? wcid)
+        {
+            if (wcid == null)
+                return "";
+
+            if (WeenieNames == null)
+                WeenieNames = Reader.GetIDToNames("WeenieName.txt");
+
+            if (WeenieClassNames == null)
+                WeenieClassNames = Reader.GetIDToNames("WeenieClassName.txt");
+
+            if (WeenieNames.TryGetValue(wcid.Value, out var weenieName))
+                return $" /* {weenieName} */";
+
+            if (WeenieClassNames.TryGetValue(wcid.Value, out var weenieClassName))
+                return $" /* {weenieClassName}";
+
+            return "";
+        }
+
+        public static Dictionary<uint, string> SpellNames;
+
+        public static string GetSpellName(SpellId? spellId)
+        {
+            if (spellId == null)
+                return "";
+            
+            if (SpellNames == null)
+                SpellNames = Reader.GetIDToNames("SpellName.txt");
+
+            if (SpellNames.TryGetValue((uint)spellId, out var spellName))
+                return $" /* {spellName} */";
+
+            return "";
+        }
+
+        public static string GetTeleLoc(Position pos)
+        {
+            if (pos == null || pos.ObjCellId == 0 || pos.Frame == null)
+                return "";
+
+            return $" /* {pos} */";
+        }
+
+        public static string GetStatName(int? stat, EmoteType type)
+        {
+            if (stat == null)
+                return "";
+
+            switch (type)
+            {
+                case EmoteType.AwardLevelProportionalSkillXP:
+                case EmoteType.AwardSkillPoints:
+                case EmoteType.AwardSkillXP:
+
+                case EmoteType.InqSkillStat:
+                case EmoteType.InqRawSkillStat:
+                case EmoteType.InqSkillTrained:
+                case EmoteType.InqSkillSpecialized:
+                case EmoteType.UntrainSkill:
+                    return $" /* {(Skill)stat} */";
+
+                case EmoteType.DecrementIntStat:
+                case EmoteType.IncrementIntStat:
+                case EmoteType.InqIntStat:
+                case EmoteType.SetIntStat:
+                    return $" /* {(PropertyInt)stat} */";
+
+                case EmoteType.InqAttributeStat:
+                case EmoteType.InqRawAttributeStat:
+                    return $" /* {(PropertyAttribute)stat} */";
+
+                case EmoteType.InqBoolStat:
+                case EmoteType.SetBoolStat:
+                    return $" /* {(PropertyBool)stat} */";
+
+                case EmoteType.InqFloatStat:
+                case EmoteType.SetFloatStat:
+                    return $" /* {(PropertyFloat)stat} */";
+
+                case EmoteType.InqInt64Stat:
+                case EmoteType.SetInt64Stat:
+                    return $" /* {(PropertyInt64)stat} */";
+
+                case EmoteType.InqSecondaryAttributeStat:
+                case EmoteType.InqRawSecondaryAttributeStat:
+                    return $" /* {(PropertyAttribute2nd)stat} */";
+
+                case EmoteType.InqStringStat:
+                    return $" /* {(PropertyAttribute2nd)stat} */";
+
+                default:
+                    return "";
+            }
+        }
+
+        public static string GetAmountName(int? amount, EmoteType type)
+        {
+            if (amount == null)
+                return "";
+
+            switch (type)
+            {
+                case EmoteType.AddCharacterTitle:
+                    return $" /* {(CharacterTitle)amount} */";
+
+                case EmoteType.AddContract:
+                case EmoteType.RemoveContract:
+                    return $" /* {(ContractId)amount} */";
+
+                default:
+                    return "";
+            }
         }
     }
 }
