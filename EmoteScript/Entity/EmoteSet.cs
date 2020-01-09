@@ -46,7 +46,7 @@ namespace EmoteScript
         public EmoteSet(Branch branch)
         {
             Category = branch.Category;
-            Quest = branch.Parent.GetMessageKey();
+            Quest = branch.Parent.Message;
             // other filters?
         }
 

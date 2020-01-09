@@ -41,7 +41,7 @@
     "emotes": [
       {
         "type": 30,
-        "msg": "cowtipcounter",
+        "msg": "cowtipcounter@300",
         "min": 300
       }
     ]

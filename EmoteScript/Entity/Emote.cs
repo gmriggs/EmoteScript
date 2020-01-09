@@ -234,6 +234,9 @@ namespace EmoteScript
 
             string key = Message;
 
+            if (key.Contains("@"))
+                return key;
+
             switch (Type)
             {
                 case EmoteType.InqAttributeStat:

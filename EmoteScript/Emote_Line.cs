@@ -230,6 +230,8 @@ namespace EmoteScript
                         break;
                 }
             }
+
+            emote.Message = emote.GetMessageKey();
             
             return emote;
         }
