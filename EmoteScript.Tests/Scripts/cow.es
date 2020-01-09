@@ -4,7 +4,6 @@ Use:
     - InqQuest: CowTip
         QuestSuccess:
             - Tell: You've completed your quest already.
-            - Motion: Wave
         QuestFailure:
             - InqQuest: cowtipcounter
                 QuestSuccess:
