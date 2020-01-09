@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "EmoteScript": {
+      "commandName": "Project",
+      "commandLineArgs": "..\\..\\..\\..\\EmoteScript.Tests\\Scripts\\cow.es"
+    }
+  }
+}

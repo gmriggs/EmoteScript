@@ -1,0 +1,127 @@
+[
+  {
+    "category": 7,
+    "emotes": [
+      {
+        "type": 12
+      },
+      {
+        "type": 5,
+        "motion": 318767239
+      },
+      {
+        "type": 21,
+        "msg": "CowTip"
+      }
+    ]
+  },
+  {
+    "category": 12,
+    "quest": "CowTip",
+    "emotes": [
+      {
+        "type": 10,
+        "msg": "You've completed your quest already."
+      },
+      {
+        "type": 5,
+        "motion": 318767239
+      }
+    ]
+  },
+  {
+    "category": 13,
+    "quest": "CowTip",
+    "emotes": [
+      {
+        "type": 21,
+        "msg": "cowtipcounter"
+      }
+    ]
+  },
+  {
+    "category": 12,
+    "quest": "cowtipcounter",
+    "emotes": [
+      {
+        "type": 30,
+        "msg": "cowtipcounter",
+        "min": 300
+      }
+    ]
+  },
+  {
+    "category": 12,
+    "quest": "cowtipcounter@300",
+    "emotes": [
+      {
+        "type": 10,
+        "msg": "Good, those cows will be set for awhile."
+      },
+      {
+        "type": 62,
+        "amount64": 500000
+      },
+      {
+        "type": 34,
+        "amount": 433
+      },
+      {
+        "type": 18,
+        "msg": "You are Obviously Bored."
+      },
+      {
+        "type": 3,
+        "classID": 33965
+      },
+      {
+        "type": 10,
+        "msg": "Don't tell them I gave that to you."
+      },
+      {
+        "type": 31,
+        "msg": "cowtipcounter"
+      },
+      {
+        "type": 22,
+        "msg": "CowTip"
+      }
+    ]
+  },
+  {
+    "category": 13,
+    "quest": "cowtipcounter@300",
+    "emotes": [
+      {
+        "type": 10,
+        "msg": "You must tip at least 300 cows to complete this quest."
+      }
+    ]
+  },
+  {
+    "category": 13,
+    "quest": "cowtipcounter",
+    "emotes": [
+      {
+        "type": 10,
+        "msg": "You are starting the Cow Tipping Quest."
+      },
+      {
+        "type": 70,
+        "msg": "cowtipcounter, 0"
+      }
+    ]
+  },
+  {
+    "category": 1,
+    "classID": 1234,
+    "vendorType": 1,
+    "emotes": [
+      {
+        "type": 49,
+        "percent": 0.5,
+        "display": 1
+      }
+    ]
+  }
+]
