@@ -111,17 +111,5 @@
         "msg": "cowtipcounter, 0"
       }
     ]
-  },
-  {
-    "category": 1,
-    "classID": 1234,
-    "vendorType": 1,
-    "emotes": [
-      {
-        "type": 49,
-        "percent": 0.5,
-        "display": 1
-      }
-    ]
   }
 ]
