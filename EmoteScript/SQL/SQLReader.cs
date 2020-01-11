@@ -98,6 +98,7 @@ namespace EmoteScript.SQL
         public static Dictionary<string, string> DefaultValues = new Dictionary<string, string>()
         {
             { "Delay", "0" },
+            { "DestinationType", "Undef" },
             { "Extent", "1" },
             { "Message", "" },
             { "HeroXP64", "0" },

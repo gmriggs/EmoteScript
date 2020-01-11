@@ -465,7 +465,7 @@ namespace EmoteScript
             if (Sound != null)
                 fields.Add($"Sound: {Sound}");
             if (DestinationType != null)
-                fields.Add($"Delay: {Delay}");
+                fields.Add($"DestinationType: {DestinationType}");
             if (WeenieClassId != null)
                 fields.Add($"WeenieClassId: {WeenieClassId}");
             if (StackSize != null)
