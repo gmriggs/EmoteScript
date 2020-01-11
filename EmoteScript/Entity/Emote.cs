@@ -54,20 +54,50 @@ namespace EmoteScript
         public float? AnglesY { get; set; }
         public float? AnglesZ { get; set; }
 
+        /// <summary>
+        /// Returns the list of EmoteSet categories this Emote type
+        /// can possibly branch to
+        /// </summary>
         [JsonIgnore]
-        public List<EmoteCategory> EmoteBranches { get; set; }
+        public List<EmoteCategory> ValidBranches;
+
+        /// <summary>
+        /// Returns TRUE if this emote branches to other EmoteSet categories,
+        /// an Inq* emote, for example
+        /// </summary>
+        [JsonIgnore]
+        public bool HasBranches => ValidBranches != null;
+
+        /// <summary>
+        /// A list of links to the EmoteSet categories this Emote
+        /// can possibly branch to
+        /// </summary>
+        [JsonIgnore]
+        public List<EmoteSet> Branches { get; set; }
 
         [JsonIgnore]
-        public bool HasBranches => EmoteBranches != null;
+        public bool HasBranchesCompleted
+        {
+            get
+            {
+                var categories = new Dictionary<EmoteCategory, float>();
+
+                foreach (var branch in Branches)
+                {
+                    if (!categories.ContainsKey(branch.Category))
+                        categories.Add(branch.Category, 0.0f);
+
+                    categories[branch.Category] += branch.Probability ?? 1.0f;
+                }
+
+                var completed = categories.Values.Where(i => i >= 1.0f).ToList();
+
+                return completed.Count == ValidBranches.Count;
+            }
+        }
 
         [JsonIgnore]
-        public Dictionary<EmoteCategory, Branch> Branches { get; set; }
-
-        [JsonIgnore]
-        public bool HasBranchesCompleted => Branches.Count == EmoteBranches.Count;
-
-        [JsonIgnore]
-        public List<EmoteCategory> RemainingBranches => EmoteBranches.Except(Branches.Keys).ToList();
+        public List<EmoteCategory> RemainingBranches => ValidBranches.Except(Branches.Select(i => i.Category)).ToList();
 
         public Emote() { }
 
@@ -75,10 +105,10 @@ namespace EmoteScript
         {
             Type = type;
 
-            EmoteBranches = GetEmoteBranches(type);
+            ValidBranches = GetValidBranches(type);
 
-            if (EmoteBranches != null)
-                Branches = new Dictionary<EmoteCategory, Branch>();
+            if (ValidBranches != null)
+                Branches = new List<EmoteSet>();
         }
 
         public Emote(Emote emote)
@@ -124,28 +154,29 @@ namespace EmoteScript
             AnglesZ = emote.AnglesZ;
         }
 
-        public void AddBranch(Branch branch)
+        public void AddBranch(EmoteSet emoteSet)
         {
-            Branches.Add(branch.Category, branch);
+            Branches.Add(emoteSet);
         }
         
-        public void AddBranches(List<EmoteCategory> branches)
+        public void AddValidBranches(List<EmoteCategory> branches)
         {
-            EmoteBranches = branches;
+            ValidBranches = branches;
 
-            Branches = new Dictionary<EmoteCategory, Branch>();
+            Branches = new List<EmoteSet>();
         }
 
-        public static List<EmoteCategory> GetEmoteBranches(EmoteType type)
+        /// <summary>
+        /// Returns the list of EmoteSet categories an Emote type
+        /// can possibly branch to
+        /// </summary>
+        public static List<EmoteCategory> GetValidBranches(EmoteType type)
         {
-            List<EmoteCategory> branches = null;
-            
             switch (type)
             {
                 case EmoteType.Goto:
-                    
-                    branches = Branch.GotoSet;
-                    break;
+
+                    return Branch.GotoSet;
 
                 case EmoteType.InqAttributeStat:
                 case EmoteType.InqBoolStat:
@@ -169,8 +200,7 @@ namespace EmoteScript
                 case EmoteType.InqStringStat:
                 case EmoteType.InqYesNo:
 
-                    branches = Branch.Test;
-                    break;
+                    return Branch.Test;
 
                 case EmoteType.InqQuest:
                 case EmoteType.InqQuestBitsOff:
@@ -180,27 +210,25 @@ namespace EmoteScript
                 case EmoteType.UpdateMyQuest:
                 case EmoteType.UpdateQuest:
 
-                    branches = Branch.Quest;
-                    break;
+                    return Branch.Quest;
 
                 case EmoteType.InqEvent:
 
-                    branches = Branch.Event;
-                    break;
+                    return Branch.Event;
 
                 case EmoteType.InqFellowNum:
 
-                    branches = Branch.TestFellow;
-                    break;
+                    return Branch.TestFellow;
 
                 case EmoteType.InqFellowQuest:
                 case EmoteType.UpdateFellowQuest:
 
-                    branches = Branch.QuestFellow;
-                    break;
-            }
+                    return Branch.QuestFellow;
 
-            return branches;
+                default:
+
+                    return null;
+            }
         }
 
         public void SetOrigin(Vector3? origin)
@@ -349,28 +377,6 @@ namespace EmoteScript
             }
         }
 
-        public List<string> BuildScript(int depth = 1)
-        {
-            var lines = new List<string>();
-
-            var indent = string.Concat(Enumerable.Repeat("    ", depth));
-
-            lines.Add($"{indent}- {Type}");
-
-            if (Branches == null)
-                return lines;
-
-            foreach (var branch in Branches.Values)
-            {
-                lines.Add($"{indent}    {branch.Category}:");
-
-                foreach (var emote in branch.Emotes)
-                    lines.AddRange(emote.BuildScript(depth + 2));
-            }
-
-            return lines;
-        }
-
         public EmoteField GetPopulatedFields()
         {
             var fields = EmoteField.None;
@@ -461,8 +467,6 @@ namespace EmoteScript
         {
             var fields = new List<string>();
 
-            fields.Add($"Type: {Type}");
-
             if (Delay != null)
                 fields.Add($"Delay: {Delay}");
             if (Extent != null)
@@ -538,7 +542,12 @@ namespace EmoteScript
             if (AnglesZ != null)
                 fields.Add($"AnglesZ: {AnglesZ}");
 
-            return string.Join(", ", fields);
+            var result = $"{Type}:";
+
+            if (fields.Count > 0)
+                result += " " + string.Join(", ", fields);
+
+            return result;
         }
 
         // json

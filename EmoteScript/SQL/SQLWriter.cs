@@ -10,12 +10,13 @@ namespace EmoteScript.SQL
 {
     public static class SQLWriter
     {
-        public static List<string> GetSQL(List<EmoteSet> emoteSets, string objectId)
+        public static List<string> GetSQL(EmoteTable emoteTable)
         {
             var sqlLines = new List<string>();
 
-            foreach (var emoteSet in emoteSets)
+            foreach (var emoteSet in emoteTable.EmoteSets)
             {
+                var objectId = emoteTable.Wcid != null ? emoteTable.Wcid.ToString() : "#####";
                 var categoryStr = $"{(int)emoteSet.Category} /* {emoteSet.Category} */";
                 var probability = GetSQLString(emoteSet.Probability);
                 var weenieClassIdStr = GetSQLString(emoteSet.WeenieClassId) + GetWeenieName(emoteSet.WeenieClassId);

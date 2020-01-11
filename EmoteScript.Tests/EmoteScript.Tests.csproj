@@ -15,8 +15,4 @@
     <ProjectReference Include="..\EmoteScript\EmoteScript.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Scripts\" />
-  </ItemGroup>
-
 </Project>

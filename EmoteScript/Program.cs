@@ -23,6 +23,7 @@ namespace EmoteScript
 
             var filename = args[0];
 
+            // if only a wcid is specified, search for <wcid>*.es
             if (int.TryParse(filename, out _))
             {
                 var cwd = new DirectoryInfo(Directory.GetCurrentDirectory());
@@ -31,6 +32,7 @@ namespace EmoteScript
                     filename = files[0].FullName;
             }
             
+            // if no extension is specified, assume .es
             if (!filename.Contains("."))
                 filename += ".es";
 
@@ -42,140 +44,211 @@ namespace EmoteScript
 
             var fi = new FileInfo(filename);
 
-            //var lines = Parser.ParseLines(fi);
-            //return;
-            
-            var emoteSets = Parser.ParseFile(fi);
+            if (fi.Extension.Equals(".sql", StringComparison.OrdinalIgnoreCase))
+            {
+                // convert sql to es
+                sql2es(fi);
+                return;
+            }
 
-            if (emoteSets == null)
+            if (fi.Extension.Equals(".json", StringComparison.OrdinalIgnoreCase))
+            {
+                // convert json to es
+                json2es(fi);
+                return;
+            }
+
+            // convert es to sql / json
+            var emoteTable = new EmoteTable();
+
+            emoteTable.EmoteSets = Parser.ParseFile(fi);
+
+            if (emoteTable.EmoteSets == null)
                 return;
 
-            //ShowScript(emoteSets);
+            //emoteTable.BuildLinks();
+            //emoteTable.ClearLinks();
 
-            //ShowEmoteSets(emoteSets);
+            emoteTable.Wcid = GetObjectId(fi);
+            emoteTable.Wcid = 33970;
 
-            var flatten = EmoteSet.Flatten(emoteSets);
+            //ShowSQL(emoteTable);
+            //ShowJSON(emoteTable.EmoteSets);
+            //ShowScript(emoteTable.EmoteSets);
 
-            var objectId = GetObjectId(fi);
-
-            //ShowSQL(flatten, objectId);
-            //ShowJSON(flatten);
+            //return;
 
             if (args.Length < 2 || !args[1].Contains("json", StringComparison.OrdinalIgnoreCase))
             {
-                // get .sql output filename
-                var sqlFilename = Path.ChangeExtension(fi.FullName, ".sql");
-                var sqlFile = new FileInfo(sqlFilename);
-
-                // output sql file
-                OutputSQL(flatten, sqlFile);
+                // convert script to sql
+                es2sql(emoteTable, fi);
             }
             else
             {
-                // get .json output filename
-                var jsonFilename = Path.ChangeExtension(fi.FullName, ".json");
-                var jsonFile = new FileInfo(jsonFilename);
-
-                // output json file
-                OutputJSON(flatten, jsonFile);
+                // convert script to json
+                es2json(emoteTable.EmoteSets, fi);
             }
         }
 
-        public static void ShowSQL(List<EmoteSet> emoteSets, string objectId)
+        public static void es2sql(EmoteTable emoteTable, FileInfo esFile)
         {
-            var sqlLines = SQLWriter.GetSQL(emoteSets, objectId);
+            var sqlFilename = Path.ChangeExtension(esFile.FullName, ".sql");
+            var sqlFile = new FileInfo(sqlFilename);
 
-            foreach (var sqlLine in sqlLines)
-                Console.WriteLine(sqlLine);
+            // check if file already exists?
+
+            // output sql file
+            OutputSQL(emoteTable, sqlFile);
         }
 
-        public static void ShowJSON(List<EmoteSet> emoteSets)
+        public static void es2json(List<EmoteSet> emoteSets, FileInfo esFile)
         {
-            var settings = new JsonSerializerSettings();
-            settings.NullValueHandling = NullValueHandling.Ignore;
-            settings.Formatting = Formatting.Indented;
-            settings.ContractResolver = new LowercaseContractResolver();
+            var jsonFilename = Path.ChangeExtension(esFile.FullName, ".json");
+            var jsonFile = new FileInfo(jsonFilename);
+
+            // check if file already exists?
             
-            var json = JsonConvert.SerializeObject(emoteSets, settings);
-            Console.WriteLine(json);
+            // output json file
+            OutputJSON(emoteSets, jsonFile);
         }
 
-        public static string GetObjectId(FileInfo file)
+        public static void sql2es(FileInfo sqlFile)
         {
-            var objectId = "#####";
-            var match = Regex.Match(file.Name, @"^(\d+)");
-            if (match.Success)
-                objectId = match.Groups[1].Value;
+            var sqlLines = File.ReadAllLines(sqlFile.FullName);
 
-            return objectId;
+            var sqlReader = new SQLReader();
+
+            var emoteTable = sqlReader.ReadEmoteTable(sqlLines);
+
+            emoteTable.BuildLinks();
+
+            ShowScript(emoteTable.EmoteSets);
+
+            /*var esFilename = Path.ChangeExtension(sqlFile.FullName, ".es");
+
+            // check if file already exists?
+
+            var esFile = new FileInfo(esFilename);
+
+            OutputScript(emoteTable.EmoteSets, esFile);*/
         }
 
-        public static void OutputSQL(List<EmoteSet> emoteSets, FileInfo sqlFile)
+        public static void json2es(FileInfo jsonFile)
         {
-            var objectId = GetObjectId(sqlFile);
-            
-            var sqlLines = SQLWriter.GetSQL(emoteSets, objectId);
+
+        }
+
+        public static void OutputSQL(EmoteTable emoteTable, FileInfo sqlFile)
+        {
+            var sqlLines = BuildSQL(emoteTable);
 
             File.WriteAllLines(sqlFile.FullName, sqlLines);
 
             Console.WriteLine($"Compiled {sqlFile.FullName}");
         }
 
+        public static uint? GetObjectId(FileInfo file)
+        {
+            var match = Regex.Match(file.Name, @"^(\d+)");
+
+            if (match.Success)
+                return uint.Parse(match.Groups[1].Value);
+            else
+                return null;
+        }
+
+        public static List<string> BuildSQL(EmoteTable emoteTable)
+        {
+            return SQLWriter.GetSQL(emoteTable);
+        }
+
+        public static void ShowSQL(EmoteTable emoteTable)
+        {
+            var sqlLines = BuildSQL(emoteTable);
+
+            foreach (var sqlLine in sqlLines)
+                Console.WriteLine(sqlLines);
+        }
+
         public static void OutputJSON(List<EmoteSet> emoteSets, FileInfo jsonFile)
         {
-            var settings = new JsonSerializerSettings();
-            settings.NullValueHandling = NullValueHandling.Ignore;
-            settings.Formatting = Formatting.Indented;
-            settings.ContractResolver = new LowercaseContractResolver();
-
-            var json = JsonConvert.SerializeObject(emoteSets, settings);
+            var json = BuildJSON(emoteSets);
 
             File.WriteAllText(jsonFile.FullName, json);
 
             Console.WriteLine($"Compiled {jsonFile.FullName}");
         }
 
-        public static void ShowScript(List<EmoteSet> emoteSets)
+        public static string BuildJSON(List<EmoteSet> emoteSets)
         {
-            var output = new ScriptWriter(emoteSets);
-            var script = output.BuildScript();
-
-            foreach (var line in script)
-                Console.WriteLine(line);
+            var settings = new JsonSerializerSettings();
+            settings.NullValueHandling = NullValueHandling.Ignore;
+            settings.Formatting = Formatting.Indented;
+            settings.ContractResolver = new LowercaseContractResolver();
+            
+            return JsonConvert.SerializeObject(emoteSets, settings);
         }
 
-        public static void ShowEmoteSets(List<EmoteSet> emoteSets)
+        public static void ShowJSON(List<EmoteSet> emoteSets)
         {
+            var json = BuildJSON(emoteSets);
+            
+            Console.WriteLine(json);
+        }
+
+        public static void OutputScript(List<EmoteSet> emoteSets, FileInfo esFile)
+        {
+            var script = BuildScript(emoteSets);
+
+            File.WriteAllLines(esFile.FullName, script);
+
+            Console.WriteLine($"Compiled {esFile.FullName}");
+        }
+
+        public static List<string> BuildScript(List<EmoteSet> emoteSets, int depth = 0)
+        {
+            var scriptLines = new List<string>();
+
+            var indent = string.Concat(Enumerable.Repeat("    ", depth));
+
             for (var i = 0; i < emoteSets.Count; i++)
             {
                 var emoteSet = emoteSets[i];
 
-                if (i > 0)
-                    Console.WriteLine();
+                if (depth == 0 && emoteSet.Links != null)
+                    continue;
 
-                Console.WriteLine(emoteSet);
+                if (i > 0 && depth == 0)
+                    scriptLines.Add(string.Empty);
+
+                scriptLines.Add($"{indent}{emoteSet}");
 
                 foreach (var emote in emoteSet.Emotes)
-                    ShowEmote(emote);
+                    scriptLines.AddRange(BuildScript(emote, depth + 1));
             }
+            return scriptLines;
         }
 
-        public static void ShowEmote(Emote emote, int depth = 1)
+        public static List<string> BuildScript(Emote emote, int depth)
         {
+            var scriptLines = new List<string>();
+            
             var indent = string.Concat(Enumerable.Repeat("    ", depth));
 
-            Console.WriteLine($"{indent}- {emote}");
+            scriptLines.Add($"{indent}- {emote}");
 
             if (emote.Branches != null)
-            {
-                foreach (var branch in emote.Branches)
-                {
-                    Console.WriteLine($"{indent}    {branch.Key}:");
+                scriptLines.AddRange(BuildScript(emote.Branches, depth + 1));
 
-                    foreach (var branchEmote in branch.Value.Emotes)
-                        ShowEmote(branchEmote, depth + 2);
-                }
-            }
+            return scriptLines;
+        }
+
+        public static void ShowScript(List<EmoteSet> emoteSets)
+        {
+            var script = BuildScript(emoteSets);
+
+            foreach (var line in script)
+                Console.WriteLine(line);
         }
 
         public static void ShowUsage()

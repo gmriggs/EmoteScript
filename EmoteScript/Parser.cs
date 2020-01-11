@@ -48,7 +48,7 @@ namespace EmoteScript
                     
             return lines;
         }
- 
+
         public static List<EmoteSet> ParseFile(FileInfo file)
         {
             if (!file.Exists)
@@ -61,10 +61,8 @@ namespace EmoteScript
 
             var emoteSets = new List<EmoteSet>();
 
-            EmoteSet emoteSet = null;
-            var stack = new Stack<Emote>();
-            Branch branch = null;
-            
+            var stack = new Stack<EmoteSet>();
+
             for (var i = 0; i < lines.Length; i++)
             {
                 //if (Debug)
@@ -73,118 +71,64 @@ namespace EmoteScript
                 var pre = Line.Preprocess(lines[i]);
                 var line = Line.Parse(lines[i]);
 
-                var emoteSetLine = line as EmoteSet_Line;
-                var emoteLine = line as Emote_Line;
-
                 if (line == null)
                     continue;
 
-                stack.TryPeek(out var parent);
+                var emoteSetLine = line as EmoteSet_Line;
+                var emoteLine = line as Emote_Line;
 
-                if (parent == null)
+                stack.TryPeek(out var emoteSet);
+                var emote = emoteSet?.Emotes.LastOrDefault();
+
+                if (emoteSetLine != null)
                 {
+                    while (emote != null && (!emote.HasBranches || emote.HasBranches && emote.HasBranchesCompleted))
+                    {
+                        stack.Pop();
+
+                        // try to go back 1
+                        stack.TryPeek(out emoteSet);
+                        emote = emoteSet?.Emotes.Last();
+                    }
+
+                    if (emote != null && emote.HasBranches)
+                    {
+                        var category = emoteSetLine.EmoteSet.Category;
+
+                        // ensure this emote set category is valid for this branch
+                        if (!emote.ValidBranches.Contains(category))
+                        {
+                            ShowError($"{category} is invalid for {emote.Type}", lines, i);
+                            return null;
+                        }
+
+                        // generate links
+                        if (emoteSetLine.EmoteSet.Quest == null)
+                            emoteSetLine.EmoteSet.Quest = emote.Message;
+
+                        emote.Branches.Add(emoteSetLine.EmoteSet);
+
+                        emoteSetLine.EmoteSet.AddLink(emote);
+                    }
+
+                    // start processing new emote set
+                    emoteSets.Add(emoteSetLine.EmoteSet);
+
+                    stack.Push(emoteSetLine.EmoteSet);
+                }
+                else if (emoteLine != null)
+                {
+                    // process emote
                     if (emoteSet == null)
                     {
-                        if (emoteSetLine == null)
-                        {
-                            ShowError("Couldn't find EmoteSet.Category", lines, i);
-                            return null;
-                        }
-
-                        emoteSet = emoteSetLine.EmoteSet;
-                        continue;
+                        ShowError("Couldn't find EmoteSet to add Emote", lines, i);
+                        return null;
                     }
-                }
-                else
-                {
-                    // try parse directive
-                    var cmd = ParseDirective(pre);
-                    
-                    var branchCategory = TryParseBranch(parent.EmoteBranches, pre, cmd);
 
-                    if (branch == null)
-                    {
-                        if (branchCategory == null)
-                        {
-                            ShowError($"Couldn't find {string.Join(" or ", parent.EmoteBranches)}", lines, i);
-                            return null;
-                        }
-
-                        branch = new Branch(parent, branchCategory.Value);
-                        parent.AddBranch(branch);
-
-                        continue;
-                    }
-                    else
-                    {
-                        if (branchCategory != null)
-                        {
-                            // branch completed
-                            
-                            // are all branches completed for this branch?
-                            if (parent.HasBranchesCompleted)
-                            {
-                                // pop from stack
-                                stack.Pop();
-                                stack.TryPeek(out parent);
-                            }
-
-                            branch = new Branch(parent, branchCategory.Value);
-                            parent.AddBranch(branch);
-
-                            continue;
-                        }
-                        else
-                        {
-                            // this could also be end of file, or new emote set
-                            // pop stack until we get back to the correct place?
-                            // parent is not null
-                            // branch is not null
-                            // branch is null
-                            if (emoteSetLine != null)
-                            {
-                                // pop back to beginning - verify branch completions along the way?
-                                stack.Clear();
-                                emoteSets.Add(emoteSet);
-                                emoteSet = null;
-                                branch = null;
-                                emoteSet = emoteSetLine.EmoteSet;
-                                continue;
-                            }
-                        }
-                    }
-                }
-
-                //Console.WriteLine($"Stack={stack.Count}");
-
-                // try to parse Emote.Type
-                var emote = line as Emote_Line;
-                if (emote == null)
-                {
-                    if (emoteSet != null)
-                    {
-                        Console.WriteLine($"Adding emote set {emoteSet.Category} from line {i}");
-                        Console.WriteLine(lines[i]);
-                        
-                        emoteSets.Add(emoteSet);
-                    }
-                    continue;
-                }
-
-                if (branch == null)
-                    emoteSet.Add(emote.Emote);
-                else
-                    branch.Add(emote.Emote);
-
-                if (emote.Emote.HasBranches)
-                {
-                    stack.Push(emote.Emote);
-                    branch = null;
+                    // add emote to current set
+                    emoteSet.Add(emoteLine.Emote);
                 }
             }
-
-            if (emoteSet != null)
-                emoteSets.Add(emoteSet);
 
             return emoteSets;
         }

@@ -17,7 +17,7 @@ namespace EmoteScript.Emotes
         {
             Message = message;
 
-            AddBranches(Branch.GotoSet);
+            AddValidBranches(Branch.GotoSet);
         }
     }
 }

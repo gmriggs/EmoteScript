@@ -20,7 +20,7 @@ namespace EmoteScript.Emotes
 
         public void Init()
         {
-            AddBranches(Branch.Quest);
+            AddValidBranches(Branch.Quest);
         }
     }
 }

@@ -6,7 +6,7 @@ namespace EmoteScript.Emotes
     {
         public InqContractsFull() : base(EmoteType.InqContractsFull)
         {
-            AddBranches(Branch.Test);
+            AddValidBranches(Branch.Test);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
+
+using Newtonsoft.Json;
 
 using EmoteScript.Entity.Enum;
 
@@ -19,14 +20,31 @@ namespace EmoteScript
 
         public List<Emote> Emotes { get; set; } = new List<Emote>();
 
+        /// <summary>
+        /// The branch emotes that can possibly link to this EmoteSet
+        /// </summary>
+        [JsonIgnore]
+        public List<Emote> Links { get; set; }
+
         public EmoteSet()
         {
 
         }
         
-        public EmoteSet(EmoteCategory category)
+        public EmoteSet(EmoteCategory category, Emote parent = null)
         {
             Category = category;
+
+            if (parent != null)
+                AddLink(parent);
+        }
+
+        public void AddLink(Emote link)
+        {
+            if (Links == null)
+                Links = new List<Emote>();
+
+            Links.Add(link);
         }
 
         public EmoteSet(EmoteSet emoteSet)
@@ -43,33 +61,14 @@ namespace EmoteScript
             MaxHealth = emoteSet.MaxHealth;
         }
 
-        public EmoteSet(Branch branch)
-        {
-            Category = branch.Category;
-            Quest = branch.Parent.Message;
-            // other filters?
-        }
-
         public void Add(Emote emote)
         {
             Emotes.Add(emote);
         }
 
-        public List<string> BuildScript()
-        {
-            var lines = new List<string>();
-            lines.Add($"{Category}:");
-
-            foreach (var emote in Emotes)
-                lines.AddRange(emote.BuildScript());
-
-            return lines;
-        }
-
         public override string ToString()
         {
             var fields = new List<string>();
-            fields.Add($"Category: {Category}");
 
             if (Probability != null)
                 fields.Add($"Probability: {Probability}");
@@ -88,42 +87,12 @@ namespace EmoteScript
             if (MaxHealth != null)
                 fields.Add($"MaxHealth: {MaxHealth}");
 
-            return string.Join(", ", fields);
-        }
-
-        public List<EmoteSet> Flatten()
-        {
-            var sets = new List<EmoteSet>();
+            var result = $"{Category}:";
             
-            var emoteSet = new EmoteSet(this);
-            sets.Add(emoteSet);
+            if (fields.Count > 0)
+                result += " " + string.Join(", ", fields);
 
-            foreach (var _emote in Emotes)
-            {
-                var emote = new Emote(_emote);
-                emote.EmoteSet = emoteSet;
-
-                emoteSet.Add(emote);
-                
-                if (_emote.HasBranches)
-                {
-                    // pull branches into root
-                    foreach (var branch in _emote.Branches.Values)
-                        sets.AddRange(branch.Flatten());
-                }
-            }
-
-            return sets;
-        }
-
-        public static List<EmoteSet> Flatten(List<EmoteSet> emoteSets)
-        {
-            var flat = new List<EmoteSet>();
-
-            foreach (var emoteSet in emoteSets)
-                flat.AddRange(emoteSet.Flatten());
-
-            return flat;
+            return result;
         }
     }
 }

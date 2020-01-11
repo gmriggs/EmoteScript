@@ -21,7 +21,7 @@ namespace EmoteScript.Emotes
 
         public void Init()
         {
-            AddBranches(Branch.Test);
+            AddValidBranches(Branch.Test);
         }
     }
 }
