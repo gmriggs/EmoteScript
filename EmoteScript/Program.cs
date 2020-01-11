@@ -70,7 +70,7 @@ namespace EmoteScript
             //emoteTable.ClearLinks();
 
             emoteTable.Wcid = GetObjectId(fi);
-            emoteTable.Wcid = 33970;
+            //emoteTable.Wcid = 33970;
 
             //ShowSQL(emoteTable);
             //ShowJSON(emoteTable.EmoteSets);
