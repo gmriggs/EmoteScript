@@ -111,49 +111,6 @@ namespace EmoteScript
                 Branches = new List<EmoteSet>();
         }
 
-        public Emote(Emote emote)
-        {
-            // shallow copy constructor
-            Type = emote.Type;
-            Delay = emote.Delay;
-            Extent = emote.Extent;
-            Motion = emote.Motion;
-            Message = emote.Message;
-            TestString = emote.TestString;
-            Min = emote.Min;
-            Max = emote.Max;
-            Min64 = emote.Min64;
-            Max64 = emote.Max64;
-            MinFloat = emote.MinFloat;
-            MaxFloat = emote.MaxFloat;
-            Stat = emote.Stat;
-            Display = emote.Display;
-            Amount = emote.Amount;
-            Amount64 = emote.Amount64;
-            HeroXP64 = emote.HeroXP64;
-            Percent = emote.Percent;
-            SpellId = emote.SpellId;
-            WealthRating = emote.WealthRating;
-            TreasureClass = emote.TreasureClass;
-            TreasureType = emote.TreasureType;
-            PScript = emote.PScript;
-            Sound = emote.Sound;
-            DestinationType = emote.DestinationType;
-            WeenieClassId = emote.WeenieClassId;
-            StackSize = emote.StackSize;
-            Palette = emote.Palette;
-            Shade = emote.Shade;
-            TryToBond = emote.TryToBond;
-            ObjCellId = emote.ObjCellId;
-            OriginX = emote.OriginX;
-            OriginY = emote.OriginY;
-            OriginZ = emote.OriginZ;
-            AnglesW = emote.AnglesW;
-            AnglesX = emote.AnglesX;
-            AnglesY = emote.AnglesY;
-            AnglesZ = emote.AnglesZ;
-        }
-
         public void AddBranch(EmoteSet emoteSet)
         {
             Branches.Add(emoteSet);
@@ -455,12 +412,6 @@ namespace EmoteScript
                 fields |= EmoteField.AnglesZ;
 
             return fields;
-        }
-
-        public virtual bool Parse()
-        {
-            Console.WriteLine($"Undefined Emote.Parse() called for EmoteType.{Type}");
-            return false;
         }
 
         public override string ToString()

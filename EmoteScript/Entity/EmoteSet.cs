@@ -47,20 +47,6 @@ namespace EmoteScript
             Links.Add(link);
         }
 
-        public EmoteSet(EmoteSet emoteSet)
-        {
-            // shallow copy constructor
-            Category = emoteSet.Category;
-            Probability = emoteSet.Probability;
-            WeenieClassId = emoteSet.WeenieClassId;
-            Style = emoteSet.Style;
-            Substyle = emoteSet.Substyle;
-            Quest = emoteSet.Quest;
-            VendorType = emoteSet.VendorType;
-            MinHealth = emoteSet.MinHealth;
-            MaxHealth = emoteSet.MaxHealth;
-        }
-
         public void Add(Emote emote)
         {
             Emotes.Add(emote);
