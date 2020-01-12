@@ -122,20 +122,41 @@ namespace EmoteScript
 
             emoteTable.BuildLinks();
 
-            ShowScript(emoteTable.EmoteSets);
+            //ShowScript(emoteTable.EmoteSets);
 
-            /*var esFilename = Path.ChangeExtension(sqlFile.FullName, ".es");
+            var esFilename = Path.ChangeExtension(sqlFile.FullName, ".es");
 
             // check if file already exists?
 
             var esFile = new FileInfo(esFilename);
 
-            OutputScript(emoteTable.EmoteSets, esFile);*/
+            OutputScript(emoteTable.EmoteSets, esFile);
         }
 
         public static void json2es(FileInfo jsonFile)
         {
+            var settings = new JsonSerializerSettings();
+            settings.ContractResolver = new LowercaseContractResolver();
 
+            var json = File.ReadAllText(jsonFile.FullName);
+
+            var emoteTable = new EmoteTable();
+
+            emoteTable.EmoteSets = JsonConvert.DeserializeObject<List<EmoteSet>>(json, settings);
+
+            emoteTable.SetValidBranches();
+
+            emoteTable.BuildLinks();
+
+            //ShowScript(emoteTable.EmoteSets);
+
+            var esFilename = Path.ChangeExtension(jsonFile.FullName, ".es");
+
+            // check if file already exists?
+
+            var esFile = new FileInfo(esFilename);
+
+            OutputScript(emoteTable.EmoteSets, esFile);
         }
 
         public static void OutputSQL(EmoteTable emoteTable, FileInfo sqlFile)

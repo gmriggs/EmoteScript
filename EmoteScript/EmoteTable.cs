@@ -84,5 +84,18 @@ namespace EmoteScript
                     emote.Branches = null;
             }
         }
+
+        /// <summary>
+        /// Sets the valid branch categories
+        /// for every emote in this table
+        /// </summary>
+        public void SetValidBranches()
+        {
+            foreach (var emoteSet in EmoteSets)
+            {
+                foreach (var emote in emoteSet.Emotes)
+                    emote.ValidBranches = Emote.GetValidBranches(emote.Type);
+            }
+        }
     }
 }
