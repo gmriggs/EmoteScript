@@ -242,7 +242,7 @@ namespace EmoteScript
                 if (i > 0 && depth == 0)
                     scriptLines.Add(string.Empty);
 
-                scriptLines.Add($"{indent}{emoteSet}");
+                scriptLines.Add($"{indent}{emoteSet.ToString(true)}");
 
                 foreach (var emote in emoteSet.Emotes)
                     scriptLines.AddRange(BuildScript(emote, depth + 1));
@@ -256,7 +256,7 @@ namespace EmoteScript
             
             var indent = string.Concat(Enumerable.Repeat("    ", depth));
 
-            scriptLines.Add($"{indent}- {emote}");
+            scriptLines.Add($"{indent}- {emote.ToString(true)}");
 
             if (emote.Branches != null)
                 scriptLines.AddRange(BuildScript(emote.Branches, depth + 1));

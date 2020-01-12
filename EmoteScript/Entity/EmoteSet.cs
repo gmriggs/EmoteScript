@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 
-using Newtonsoft.Json;
-
 using EmoteScript.Entity.Enum;
+using EmoteScript.StringMap;
+
+using Newtonsoft.Json;
 
 namespace EmoteScript
 {
@@ -54,6 +55,18 @@ namespace EmoteScript
 
         public override string ToString()
         {
+            var result = $"{Category}:";
+
+            var filters = GetFilters();
+            
+            if (filters.Count > 0)
+                result += " " + string.Join(", ", filters);
+
+            return result;
+        }
+
+        public List<string> GetFilters()
+        {
             var fields = new List<string>();
 
             if (Probability != null)
@@ -73,12 +86,65 @@ namespace EmoteScript
             if (MaxHealth != null)
                 fields.Add($"MaxHealth: {MaxHealth}");
 
+            return fields;
+        }
+
+        public string ToString(bool fluent)
+        {
+            if (!fluent)
+                return ToString();
+
             var result = $"{Category}:";
-            
-            if (fields.Count > 0)
-                result += " " + string.Join(", ", fields);
+
+            var fluentStr = GetFluentString();
+
+            if (fluentStr.Length > 0)
+                result += $" {fluentStr}";
 
             return result;
+        }
+
+        public string GetFluentString()
+        {
+            switch (Category)
+            {
+                case EmoteCategory.Give:
+                case EmoteCategory.Refuse:
+
+                    return WeenieName;
+            }
+
+            if (Links != null)
+                return "";
+
+            return string.Join(", ", GetFilters());
+        }
+
+        public static Dictionary<uint, string> WeenieNames;
+        public static Dictionary<uint, string> WeenieClassNames;
+
+        [JsonIgnore]
+        public string WeenieName
+        {
+            get
+            {
+                if (WeenieClassId == null)
+                    return null;
+
+                if (WeenieNames == null)
+                    WeenieNames = Reader.GetIDToNames("WeenieName.txt");
+
+                if (WeenieClassNames == null)
+                    WeenieClassNames = Reader.GetIDToNames("WeenieClassName.txt");
+
+                if (WeenieNames.TryGetValue(WeenieClassId.Value, out var weenieName))
+                    return $"{weenieName} ({WeenieClassId})";
+
+                if (WeenieClassNames.TryGetValue(WeenieClassId.Value, out var weenieClassName))
+                    return $"{weenieClassName} ({WeenieClassId})";
+
+                return WeenieClassId.ToString();
+            }
         }
     }
 }

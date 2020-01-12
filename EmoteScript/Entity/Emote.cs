@@ -5,6 +5,7 @@ using System.Numerics;
 
 using EmoteScript.Entity;
 using EmoteScript.Entity.Enum;
+using EmoteScript.StringMap;
 
 using Newtonsoft.Json;
 
@@ -416,6 +417,8 @@ namespace EmoteScript
 
         public override string ToString()
         {
+            var result = $"{Type}";
+
             var fields = new List<string>();
 
             if (Delay != null)
@@ -493,12 +496,260 @@ namespace EmoteScript
             if (AnglesZ != null)
                 fields.Add($"AnglesZ: {AnglesZ}");
 
-            var result = $"{Type}:";
-
             if (fields.Count > 0)
-                result += " " + string.Join(", ", fields);
+                result += $": {string.Join(", ", fields)}";
 
             return result;
+        }
+
+        public string ToString(bool fluent)
+        {
+            if (!fluent)
+                return ToString();
+
+            var result = "";
+
+            if (Delay != null && Delay != 0.0f)
+                result += $"Delay: {Delay}, ";
+
+            result += Type;
+
+            var fluentString = GetFluentString();
+
+            if (fluentString?.Length > 0)
+                result += ": " + fluentString;
+
+            return result;
+        }
+
+        public string GetFluentString()
+        {
+            switch (Type)
+            {
+                case EmoteType.AwardNoShareXP:
+                case EmoteType.AwardXP:
+                    return $"{Amount64:N0}";
+
+                case EmoteType.AddCharacterTitle:
+                    return $"{(CharacterTitle)Amount}";
+
+                case EmoteType.AddContract:
+                    return $"{(ContractId)Stat}";
+
+                case EmoteType.AwardLevelProportionalXP:
+                    var suffix = "";
+                    if ((Max64 ?? 0) != 0)
+                        suffix += $", {Max64:N0}";
+                    if ((Min64 ?? 0) != 0 && Min64 != Max64)
+                        suffix = $", {Min64:N0} - {Max64:N0}";
+                    if (Display ?? false)
+                        suffix += $", Share";
+                    return $"{Math.Round((Percent ?? 0) * 100, 2)}%{suffix}";
+
+                case EmoteType.AwardLevelProportionalSkillXP:
+                    suffix = "";
+                    if ((Max ?? 0) != 0)
+                        suffix += $", {Max:N0}";
+                    if ((Min ?? 0) != 0 && Min != Max)
+                        suffix = $", {Min:N0} - {Max:N0}";
+                    return $"{((Skill)Stat).ToSentence()}, {Math.Round((Percent ?? 0) * 100, 2)}%{suffix}";
+
+                case EmoteType.AwardLuminance:
+                    return $"{HeroXP64:N0}";
+
+                case EmoteType.AwardSkillXP:
+                case EmoteType.AwardSkillPoints:
+                    return $"{((Skill)Stat).ToSentence()} {Amount:N0}";
+
+                case EmoteType.CreateTreasure:
+                    return $"Type: {TreasureType}, Class: {TreasureClass}, WealthRating: {WealthRating}";
+
+                case EmoteType.SetFloatStat:
+                    return $"{(PropertyFloat)Stat} = {Percent}";
+
+                case EmoteType.DecrementIntStat:
+                case EmoteType.IncrementIntStat:
+                    suffix = (Amount ?? 1) > 1 ? $", {Amount:N0}" : "";
+                    return $"{(PropertyInt)Stat}{suffix}";
+
+                case EmoteType.SetIntStat:
+                    return $"{(PropertyInt)Stat} = {Amount:N0}";
+
+                case EmoteType.SetInt64Stat:
+                    return $"{(PropertyInt64)Stat} = {Amount64:N0}";
+
+                case EmoteType.SetBoolStat:
+                    return $"{(PropertyBool)Stat} = {(Amount == 0 ? "False" : "True")}";
+
+                case EmoteType.IncrementMyQuest:
+                case EmoteType.IncrementQuest:
+                case EmoteType.AwardTrainingCredits:
+                case EmoteType.InflictVitaePenalty:
+                    var amount = (Amount ?? 1) > 1 ? $", {Amount}" : "";
+                    return $"{Message}{amount}";
+
+                case EmoteType.InqAttributeStat:
+                case EmoteType.InqRawAttributeStat:
+
+                    amount = $"{Min:N0}";
+                    if (Max != Min)
+                        amount += $" - {Max:N0}";
+
+                    return $"{(PropertyAttribute)Stat} {amount}";
+
+                case EmoteType.InqBoolStat:
+                    return $"{(PropertyBool)Stat}";
+
+                case EmoteType.InqFloatStat:
+
+                    amount = $"{MinFloat}";
+                    if (MaxFloat != MinFloat)
+                        amount += $" - {MaxFloat}";
+
+                    return $"{(PropertyFloat)Stat} {amount}";
+
+                case EmoteType.InqIntStat:
+
+                    amount = $"{Min:N0}";
+                    if (Max != Min)
+                        amount += $" - {Max:N0}";
+
+                    return $"{(PropertyInt)Stat} {amount}";
+
+                case EmoteType.InqInt64Stat:
+
+                    amount = $"{Min64:N0}";
+                    if (Max64 != Min64)
+                        amount += $" - {Max64:N0}";
+
+                    return $"{(PropertyInt64)Stat} {amount}";
+
+                case EmoteType.InqQuestSolves:
+                    var numSolves = Min != null ? $", {Min}" : "";
+                    if (Max != null && Min != Max)
+                        numSolves += $" - {Max}";
+                    return $"{Message}{numSolves}";
+
+                case EmoteType.InqSecondaryAttributeStat:
+                case EmoteType.InqRawSecondaryAttributeStat:
+
+                    amount = $"{Min:N0}";
+                    if (Max != Min)
+                        amount += $" - {Max:N0}";
+
+                    return $"{(PropertyAttribute2nd)Stat} {amount}";
+
+                case EmoteType.InqSkillStat:
+                case EmoteType.InqRawSkillStat:
+
+                    amount = $"{Min:N0}";
+                    if (Max != Min)
+                        amount += $" - {Max:N0}";
+
+                    return $"{((Skill)Stat).ToSentence()} {amount}";
+
+                case EmoteType.InqStringStat:
+                    return $"{(PropertyString)Stat} == \"{TestString}\"";
+
+                case EmoteType.InqSkillTrained:
+                case EmoteType.InqSkillSpecialized:
+                case EmoteType.UntrainSkill:
+                    return $"{((Skill)Stat).ToSentence()}";
+
+                case EmoteType.InqYesNo:
+                    return TestString;
+
+                case EmoteType.Give:
+                case EmoteType.TakeItems:
+                case EmoteType.InqOwnsItems:
+
+                    var wcid = WeenieClassId.Value;
+                    var stackSize = (StackSize ?? 1) > 1 ? $", {StackSize:N0}" : "";
+                    return $"{WeenieName}{stackSize}";
+
+                case EmoteType.Motion:
+                case EmoteType.ForceMotion:
+                    return $"{(MotionCommand)Motion}";
+
+                case EmoteType.Move:
+                case EmoteType.MoveToPos:
+                case EmoteType.SetSanctuaryPosition:
+                case EmoteType.TeleportTarget:
+                    var moveTo = new Position(ObjCellId ?? 0, new Vector3(OriginX ?? 0, OriginY ?? 0, OriginZ ?? 0),
+                        new Quaternion(AnglesX ?? 0, AnglesY ?? 0, AnglesZ ?? 0, AnglesW ?? 1));
+                    return moveTo.ToString();
+
+                case EmoteType.Sound:
+                    return $"{(Sound)Sound}";
+
+                case EmoteType.CastSpell:
+                case EmoteType.CastSpellInstant:
+                case EmoteType.TeachSpell:
+                case EmoteType.PetCastSpellOnOwner:
+                    return SpellName;
+
+                case EmoteType.SetMyQuestCompletions:
+                case EmoteType.SetQuestCompletions:
+                    return $"{Message}, {Amount}";
+
+                case EmoteType.SpendLuminance:
+                    return $"{Amount:N0}";
+
+                case EmoteType.Turn:
+                    var rotation = new Quaternion(AnglesX ?? 0, AnglesY ?? 0, AnglesZ ?? 0, AnglesW ?? 1);
+                    var heading = Position.get_heading(rotation);
+                    var heading_dir = Position.get_heading_dir(heading);
+                    return $"Heading: {heading} ({heading_dir})";
+            }
+
+            return Message;
+        }
+
+        public static Dictionary<uint, string> WeenieNames;
+        public static Dictionary<uint, string> WeenieClassNames;
+
+        [JsonIgnore]
+        public string WeenieName
+        {
+            get
+            {
+                if (WeenieClassId == null)
+                    return null;
+
+                if (WeenieNames == null)
+                    WeenieNames = Reader.GetIDToNames("WeenieName.txt");
+
+                if (WeenieClassNames == null)
+                    WeenieClassNames = Reader.GetIDToNames("WeenieClassName.txt");
+
+                if (WeenieNames.TryGetValue(WeenieClassId.Value, out var weenieName))
+                    return $"{weenieName} ({WeenieClassId})";
+
+                if (WeenieClassNames.TryGetValue(WeenieClassId.Value, out var weenieClassName))
+                    return $"{weenieClassName} ({WeenieClassId})";
+
+                return WeenieClassId.ToString();
+            }
+        }
+
+        public static Dictionary<uint, string> SpellNames;
+
+        [JsonIgnore]
+        public string SpellName
+        {
+            get
+            {
+                if (SpellId == null)
+                    return null;
+
+                if (SpellNames == null)
+                    SpellNames = Reader.GetIDToNames("SpellName.txt");
+
+                if (SpellNames.TryGetValue((uint)SpellId, out var spellName))
+                    return $"{SpellId} - {spellName}";
+
+                return SpellId.ToString();
+            }
         }
 
         // json
