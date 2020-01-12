@@ -65,7 +65,7 @@ namespace EmoteScript
             return result;
         }
 
-        public List<string> GetFilters()
+        public List<string> GetFilters(bool excludeQuest = false)
         {
             var fields = new List<string>();
 
@@ -75,7 +75,7 @@ namespace EmoteScript
                 fields.Add($"Style: {Style}");
             if (Substyle != null)
                 fields.Add($"Substyle: {Substyle}");
-            if (Quest != null)
+            if (Quest != null && !excludeQuest)
                 fields.Add($"{Quest}");
             if (VendorType != null)
                 fields.Add($"VendorType: {VendorType}");
@@ -106,10 +106,9 @@ namespace EmoteScript
 
         public string GetFluentString()
         {
-            if (Links != null && Inline)
-                return "";
+            var excludeQuest = Links != null && Inline;
 
-            return string.Join(", ", GetFilters());
+            return string.Join(", ", GetFilters(excludeQuest));
         }
 
         public static Dictionary<uint, string> WeenieNames;
