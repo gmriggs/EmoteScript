@@ -55,8 +55,8 @@ namespace EmoteScript.SQL
                 var prefix = i == 0 ? "VALUES " : "     , ";
 
                 var typeStr = $"{(int)emote.Type} /* {emote.Type} */";
-                var delay = GetSQLString(emote.Delay);
-                var extent = GetSQLString(emote.Extent);
+                var delay = emote.Delay?.ToString() ?? "0";
+                var extent = emote.Extent?.ToString() ?? "1";
                 var motionStr = emote.Motion != null ? $"0x{(uint)emote.Motion:X8} /* {emote.Motion} */" : "NULL";
                 var message = GetSQLString(emote.Message);
                 var testString = GetSQLString(emote.TestString);
@@ -94,7 +94,9 @@ namespace EmoteScript.SQL
                 var anglesY = GetSQLString(emote.AnglesY);
                 var anglesZ = GetSQLString(emote.AnglesZ);
 
-                sqlLines.Add($"{prefix}(@parent_id, {i}, {typeStr}, {delay}, {extent}, {motionStr}, {message}, {testString}, {min}, {max}, {min64}, {max64}, {minDbl}, {maxDbl}, {statStr}, {display}, {amountStr}, {amount64}, {heroXP64}, {percent}, {spellIdStr}, {wealthRating}, {treasureClass}, {treasureType}, {pScriptStr}, {soundStr}, {destinationTypeStr}, {weenieClassIdStr}, {stackSize}, {palette}, {shade}, {tryToBond}, {objCellId}{teleloc}, {originX}, {originY}, {originZ}, {anglesW}, {anglesX}, {anglesY}, {anglesZ});");
+                var postfix = i < emotes.Count - 1 ? "" : ";";
+                
+                sqlLines.Add($"{prefix}(@parent_id, {i}, {typeStr}, {delay}, {extent}, {motionStr}, {message}, {testString}, {min}, {max}, {min64}, {max64}, {minDbl}, {maxDbl}, {statStr}, {display}, {amountStr}, {amount64}, {heroXP64}, {percent}, {spellIdStr}, {wealthRating}, {treasureClass}, {treasureType}, {pScriptStr}, {soundStr}, {destinationTypeStr}, {weenieClassIdStr}, {stackSize}, {palette}, {shade}, {tryToBond}, {objCellId}{teleloc}, {originX}, {originY}, {originZ}, {anglesW}, {anglesX}, {anglesY}, {anglesZ}){postfix}");
             }
 
             sqlLines.Add(string.Empty);
@@ -130,7 +132,7 @@ namespace EmoteScript.SQL
                 return $" /* {weenieName} */";
 
             if (WeenieClassNames.TryGetValue(wcid.Value, out var weenieClassName))
-                return $" /* {weenieClassName}";
+                return $" /* {weenieClassName} */";
 
             return "";
         }
