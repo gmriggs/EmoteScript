@@ -236,8 +236,13 @@ namespace EmoteScript
             {
                 var emoteSet = emoteSets[i];
 
-                if (depth == 0 && emoteSet.Links != null)
+                if (depth == 0 && emoteSet.Inline)
                     continue;
+
+                if (depth > 0 && !emoteSet.Inline)
+                    continue;
+
+                //Console.WriteLine($"{emoteSet}");
 
                 if (i > 0 && depth == 0)
                     scriptLines.Add(string.Empty);
@@ -252,6 +257,8 @@ namespace EmoteScript
 
         public static List<string> BuildScript(Emote emote, int depth)
         {
+            //Console.WriteLine($"{emote}");
+
             var scriptLines = new List<string>();
             
             var indent = string.Concat(Enumerable.Repeat("    ", depth));

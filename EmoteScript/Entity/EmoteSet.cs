@@ -69,18 +69,18 @@ namespace EmoteScript
         {
             var fields = new List<string>();
 
-            if (Probability != null)
-                fields.Add($"Probability: {Probability}");
             if (WeenieClassId != null)
-                fields.Add($"WeenieClassId: {WeenieClassId}");
+                fields.Add($"{WeenieName}");
             if (Style != null)
                 fields.Add($"Style: {Style}");
             if (Substyle != null)
                 fields.Add($"Substyle: {Substyle}");
             if (Quest != null)
-                fields.Add($"Quest: {Quest}");
+                fields.Add($"{Quest}");
             if (VendorType != null)
                 fields.Add($"VendorType: {VendorType}");
+            if (Probability != null)
+                fields.Add($"Probability: {Probability}");
             if (MinHealth != null)
                 fields.Add($"MinHealth: {MinHealth}");
             if (MaxHealth != null)
@@ -106,15 +106,7 @@ namespace EmoteScript
 
         public string GetFluentString()
         {
-            switch (Category)
-            {
-                case EmoteCategory.Give:
-                case EmoteCategory.Refuse:
-
-                    return WeenieName;
-            }
-
-            if (Links != null)
+            if (Links != null && Inline)
                 return "";
 
             return string.Join(", ", GetFilters());
@@ -146,5 +138,8 @@ namespace EmoteScript
                 return WeenieClassId.ToString();
             }
         }
+
+        [JsonIgnore]
+        public bool Inline => Links != null && Links.Count == 1;
     }
 }

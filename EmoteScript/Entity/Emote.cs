@@ -132,11 +132,9 @@ namespace EmoteScript
         {
             switch (type)
             {
-                // gotos are never inlined
+                case EmoteType.Goto:
 
-                //case EmoteType.Goto:
-
-                    //return Branch.GotoSet;
+                    return Branch.GotoSet;
 
                 case EmoteType.InqAttributeStat:
                 case EmoteType.InqBoolStat:
