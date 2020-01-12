@@ -104,7 +104,8 @@
       },
       {
         "type": 70,
-        "msg": "cowtipcounter, 0"
+        "msg": "cowtipcounter",
+        "amount": 0
       }
     ]
   }

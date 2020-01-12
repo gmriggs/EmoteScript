@@ -617,7 +617,7 @@ namespace EmoteScript
             { EmoteType.SetInt64Stat, new List<EmoteField>() { EmoteField.PropertyInt64Stat, EmoteField.Amount64 } },
             { EmoteType.SetMyQuestCompletions, new List<EmoteField>() { EmoteField.Message } },
             { EmoteType.SetSanctuaryPosition, new List<EmoteField>() { EmoteField.Position } },
-            { EmoteType.SetQuestCompletions, new List<EmoteField>() { EmoteField.Message } },
+            { EmoteType.SetQuestCompletions, new List<EmoteField>() { EmoteField.Message, EmoteField.Amount } },
             { EmoteType.SpendLuminance, new List<EmoteField>() { EmoteField.HeroXP64 } },
             { EmoteType.Sound, new List<EmoteField>() { EmoteField.Sound } },
             { EmoteType.StampFellowQuest, new List<EmoteField>() { EmoteField.Message } },
