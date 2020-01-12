@@ -250,6 +250,13 @@ namespace EmoteScript.SQL
 
                 return result;
             }
+            else if (prop.PropertyType.FullName.Contains("MotionStance"))
+            {
+                if (!Enum.TryParse(value, out MotionStance result))
+                    Console.WriteLine($"Failed to parse {value} into MotionStance");
+
+                return result;
+            }
             else if (prop.PropertyType.FullName.Contains("MotionCommand"))
             {
                 if (!Enum.TryParse(value, out MotionCommand result))
@@ -310,7 +317,7 @@ namespace EmoteScript.SQL
             {
                 if (startIdx >= line.Length) break;
 
-                bool isString = line[startIdx] == '\'';
+                bool isString = line[startIdx] == '\'' || line[startIdx] == '\"';
 
                 var endIdx = -1;
                 if (!isString)
@@ -327,19 +334,28 @@ namespace EmoteScript.SQL
                 }
                 else
                 {
+                    var doubleQuotes = line[startIdx] == '\"';
+
                     var idx = startIdx + 1;
                     while (true)
                     {
-                        endIdx = line.IndexOf('\'', idx);
+                        var endChar = doubleQuotes ? '\"' : '\'';
+                        
+                        endIdx = line.IndexOf(endChar, idx);
                         if (endIdx == -1)
                         {
-                            line = line + "'";
+                            line = line + endChar;
                             endIdx = line.Length;
                             break;
                         }
-                        else if (line[endIdx + 1] == '\'')
+                        else if (!doubleQuotes && line[endIdx + 1] == '\'')
                         {
                             idx = endIdx + 2;
+                            continue;
+                        }
+                        else if (doubleQuotes && line[endIdx - 1] == '\\')
+                        {
+                            idx = endIdx + 1;
                             continue;
                         }
                         endIdx++;
@@ -353,7 +369,7 @@ namespace EmoteScript.SQL
                     break;
                 }
                 var field = line.Substring(startIdx, endIdx - startIdx).Trim();
-                if (field.StartsWith("'") && field.EndsWith("'"))
+                if (field.StartsWith("'") && field.EndsWith("'") || field.StartsWith("\"") && field.EndsWith("\""))
                     field = field.Substring(1, field.Length - 2);
 
                 fields.Add(field);
