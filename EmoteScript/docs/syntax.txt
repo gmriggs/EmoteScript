@@ -1,0 +1,188 @@
+-- EmoteSets --
+
+The events that an object responds to are grouped into EmoteSets.
+
+Here are some of the common types of EmoteSets:
+
+Use - called when a player double-clicks the NPC
+Give (object id) - called when a player gives a particular object to the NPC.
+Refuse (object id) - called when a player attempts to give a particular object to the NPC.
+Heartbeat - called every 5 seconds
+
+A full list of all the EmoteSet types can be found in EmoteCategory.cs
+
+All emote tables begin with an event type, followed by a colon. For example:
+
+Use:
+
+This would be the line to start defining what happens the player double-clicks the NPC
+
+Give: 1234
+
+This would be the line to start defining what happens when the player gives object #1234 to the NPC
+
+By default, an NPC will not accept or just take any random object from players. The Give emote sets can be seen as a whitelist for which types of objects the NPC will accept from the player.
+
+Refuse: 5678
+
+If the player attempts to give object #5678 to the NPC, and you want the NPC to not accept the item from the player as usual, but you also want the NPC to perform additional actions after refusing the item.
+
+When the player attempts to give object #5678 to the NPC, the object will remain in the player's inventory, and the player will receive the message "You allow <NPC name> to examine you <item name>." The NPC will then perform the emotes listed under the Refuse: 5678 emote set.
+
+Heartbeat:
+
+This is called every 5 seconds for the NPC. If you want the NPC to scratch their head every ~20 seconds for example, you could set up a Heartbeat emote set with a 25% chance
+
+-- Emotes --
+
+After you define an EmoteSet, the lines that follow are 1 or more Emotes that you want to run for that EmoteSet. For example:
+
+Give: 1234
+	- Tell: Thank you, I have received item #1234.
+	
+When the player tries to give item #1234 to the NPC, the action will succeed, and the item will be removed from the player's inventory.
+
+The NPC will then tell the player "Thank you, I have received item #1234."
+
+Use:
+	- Motion: Wave
+	- Tell: Hello there!
+
+For this example, when the player double-clicks the NPC, the NPC will first wave, and then they will tell the player "Hello there!"
+
+Here is the same emote table, with ensuring the NPC turn to the player before greeting them:
+
+Use:
+	- TurnToTarget
+	- Motion: Wave
+	- Tell: Hello there!
+	
+There are over 100 different types of emotes, each with their own list of required and optional parameters.
+
+Here is a complete list of the emotes available, and a brief description:
+
+Act - Broadcasts a local message in green text. Short for 'acting' text.
+Activate - Activates the linked object from PropertyInstanceId.ActivationTarget
+AddCharacterTitle - Adds a new title to the player's list of character titles.
+AddContract - Adds a new contract to the player's list of contracts.
+AdminSpam - Broadcasts an admin tell to all players online.
+AwardLevelProportionalXP - Awards a percentage of XP for the player's current level, optionally capped to a maximum value.
+AwardLevelProportionalSkillXP - Awards a percentage of skill XP for the player's current skill level, optionally capped to a 
+AwardLuminance - Awards amount of luminance to a player.
+AwardNoShareXP - Awards amount of non-shareable XP to player.
+AwardSkillXP - Awards amount of skill XP to a player's skill.
+AwardSkillPoints - Increases a skill by some # of skill levels.
+AwardTrainingCredits - Awards available skill credits to player.
+AwardXP - Awards amount of XP to player.
+CastSpell - Casts a spell on the target.
+CastSpellInstant - Casts a spell on the target instantly, no windup animation.
+CloseMe - Closes the currently active container.
+CreateTreasure - Spawns a randomly-generated piece of jewelry for tier WealthRating.
+DecrementIntStat - Decrements a PropertyInt stat by amount.
+DecrementMyQuest - Decrements the # of times a quest has been solved by an NPC.
+DecrementQuest - Decrements the # of times a player has solved a quest.
+DeleteSelf - Delete the current object.
+DirectBroadcast - Send a green text message directly to player.
+EraseMyQuest - Removes a quest from an NPC's list of quests.
+EraseQuest - Deletes a quest from a player's list of quests.
+FellowBroadcast - Sends a green text message to all of the players in the fellowship.
+ForceMotion - Forces the player to perform a motion.
+Generate - For generator emote tables, spawns an object.
+Give - Give an item to the player, optional stack size.
+* Goto - Jumps to the GotoSet for a message.
+IncrementIntStat - Increments a PropertyInt stat by amount.
+IncrementMyQuest - Increments the # of times a quest has been solved by an NPC.
+IncrementQuest - Increments the # of times a player has solved a quest.
+InflictVitaePenalty - Increases the player's vitae penalty by some amount.
+* InqAttributeStat - Returns TRUE if player's current (buffed) attribute is between min - max.
+* InqBoolStat - Returns TRUE if a PropertyBool stat for player is TRUE.
+* InqContractsFull - Returns TRUE if the player is currently tracking the maximum # of contracts (100)
+* InqEvent - Returns TRUE if an event is currently in progress.
+* InqFellowNum - Returns TRUE if the player is currently in a fellowship.
+* InqFellowQuest - Returns TRUE if a fellowship quest is currently on cooldown.
+* InqFloatStat - Returns TRUE if a PropertyFloat stat for player is between min - max.
+* InqIntStat - Returns TRUE if a PropertyInt stat for player is between min - max.
+* InqInt64Stat - Returns TRUE if a PropertyInt64 stat for player is between min - max.
+* InqMyQuest - Returns TRUE if this NPC quest is currently on cooldown.
+* InqMyQuestSolves - Returns TRUE if the current NPC has solved quest between min - max # of times.
+* InqNumCharacterTitles - Returns TRUE if the amount of character titles is between min - max.
+* InqOwnsItems - Returns TRUE if the player has at least # of some item in their possession.
+* InqPackSpace - Returns TRUE if player has at least # empty pack slots available
+* InqQuest - Returns TRUE if player's quest is currently on cooldown.
+* InqQuestSolves - Returns TRUE if player has solved quest between min - max # of times.
+* InqRawAttributeStat - Returns TRUE if player's base attribute is between min - max.
+* InqRawSecondaryAttributeStat - Returns TRUE if player's base vital is between min - max.
+* InqRawSkillStat - Returns TRUE if player's base skill level is between min - max.
+* InqSecondaryAttributeStat - Returns TRUE if player's current (buffed) vital is between min - max.
+* InqSkillSpecialized - Returns TRUE if player has a skill specialized.
+* InqSkillStat - Returns TRUE if player's current (buffed) skill level is between min - max.
+* InqSkillTrained - Returns TRUE if player has a skill trained.
+* InqStringStat - Returns TRUE if a PropertyString stat for player is equal to some value.
+* InqYesNo - Presents a yes/no confirmation dialog to the player, returns TRUE if they click yes.
+KillSelf - Kills the player.
+LocalBroadcast - Broadcast a green text message to nearby players.
+LocalSignal - Calls ReceiveSignal for any objects that have PropertyBool.HearLocalSignals / PropertyInt.HearLocalSignalsRadius
+LockFellow - Locks the current player's fellowship
+Motion - Perform a motion / animation.
+Move - Moves to a position relative to the home position.
+MoveHome - Moves to the home position.
+MoveToPos - Move to a specific location.
+OpenMe - Opens the currently active container.
+PetCastSpellOnOwner - Casts a spell on the player owner for a pet.
+PhysScript - Plays a physics script / special fx
+PopUp - Pops up a modal dialog box on the player's screen.
+RemoveContract - Removes a contract from the player's list of contracts.
+RemoveVitaePenalty - Removes the vitae penalty for player.
+Say - Broadcasts a local message in white text.
+SetBoolStat - Sets the value for a PropertyBool stat for player.
+SetFloatStat - Sets the value for a PropertyFloat stat for player.
+SetIntStat - Sets the value for a PropertyInt stat for player.
+SetInt64Stat - Sets the value for a PropertyInt64 stat for player.
+SetMyQuestCompletions - Sets the # of times an NPC has completed a quest.
+SetQuestCompletions - Sets the # of times a player has completed a quest.
+SetSanctuaryPosition - Sets the player's current lifestone location.
+Sound - Emits a sound from this object.
+SpendLuminance - Reduces the amount of luminance for a player.
+StampFellowQuest - Increments the # of times a player has solved a fellowship quest.
+StampMyQuest - Increments the # of times an NPC has solved a quest.
+StampQuest - Increments the # of times a player has solved a quest.
+StartBarber - Displays the barber UI.
+StartEvent - Starts a world event in EventManager.
+StopEvent - Stops a world event in EventManager.
+TakeItems - Removes some amount of a particular item from the player's inventory.
+TeachSpell - Adds a spell to the player's spellbook.
+TeleportTarget - Teleports the player to a particular location.
+Tell - Sends a purple text message directly to the player.
+TellFellow - Sends a purple text message to each player in the fellowship.
+TextDirect - Sends a green text message directly to the player.
+Turn - Turns to a particular angle.
+TurnToTarget - Turn to the target player.
+UntrainSkill - Untrains a player skill, refunds skill XP and skill credits.
+* UpdateFellowQuest - If player hasn't started this fellowship quest yet, adds it. Returns TRUE if a player can solve this quest.
+* UpdateMyQuest - If NPC hasn't started quest yet, adds it. Returns true if NPC can solve this quest.
+* UpdateQuest - If player hasn't started quest yet, adds it. Returns TRUE if a player can solve this quest.
+WorldBroadcast - Broadcast a green text message to all online players.
+
+* Branching emotes
+
+Some of the emotes above are prefixed with *. The Goto, Inq*, and Update* emotes are branching emotes.
+
+A branching emote Inquires some particular criteria on the player or in the current world state, and then splits off into 2 separate paths depending on the result of that inquiry.
+
+For example, to check if the player has the War Magic skill trained:
+
+Use:
+	- InqSkillTrained: War Magic
+		TestSuccess:
+			- Tell: You have the War Magic skill trained.
+		TestFailure:
+			- Tell: You don't have the War Magic skill trained.
+			
+In the above example, when the player double-clicks the NPC, the NPC will check if the player has the War Magic skill trained. If they do, the NPC will tell the player "You have the War Magic skill trained." If they don't, the NPC will tell the player "You don't have the War Magic skill trained."
+
+TODO:
+
+- Explain the details of flat view and tree view
+- Explain the details of key:val and fluent syntax
+
+- Full reference for each emote in emotes.txt, with required/optional parameters, and fluent examples
