@@ -524,6 +524,8 @@ namespace EmoteScript
 
         public string GetFluentString()
         {
+            var message = (Branches?.FirstOrDefault()?.Inline ?? false) ? "" : $", {Message}";
+
             switch (Type)
             {
                 case EmoteType.AwardNoShareXP:
@@ -595,10 +597,11 @@ namespace EmoteScript
                     if (Max != Min)
                         amount += $" - {Max:N0}";
 
-                    return $"{(PropertyAttribute)Stat} {amount}";
+                    return $"{(PropertyAttribute)Stat} {amount}{message}";
 
                 case EmoteType.InqBoolStat:
-                    return $"{(PropertyBool)Stat}";
+
+                    return $"{(PropertyBool)Stat}{message}";
 
                 case EmoteType.InqFloatStat:
 
@@ -606,7 +609,7 @@ namespace EmoteScript
                     if (MaxFloat != MinFloat)
                         amount += $" - {MaxFloat}";
 
-                    return $"{(PropertyFloat)Stat} {amount}";
+                    return $"{(PropertyFloat)Stat} {amount}{message}";
 
                 case EmoteType.InqIntStat:
 
@@ -614,13 +617,13 @@ namespace EmoteScript
                     if (Max != Min)
                         amount += $" - {Max:N0}";
 
-                    return $"{(PropertyInt)Stat} {amount}";
+                    return $"{(PropertyInt)Stat} {amount}{message}";
 
                 case EmoteType.InqInt64Stat:
 
                     amount = $"{Min64:N0}";
                     if (Max64 != Min64)
-                        amount += $" - {Max64:N0}";
+                        amount += $" - {Max64:N0}{message}";
 
                     return $"{(PropertyInt64)Stat} {amount}";
 
@@ -635,7 +638,7 @@ namespace EmoteScript
 
                     amount = $"{Min:N0}";
                     if (Max != Min)
-                        amount += $" - {Max:N0}";
+                        amount += $" - {Max:N0}{message}";
 
                     return $"{(PropertyAttribute2nd)Stat} {amount}";
 
@@ -644,28 +647,35 @@ namespace EmoteScript
 
                     amount = $"{Min:N0}";
                     if (Max != Min)
-                        amount += $" - {Max:N0}";
+                        amount += $" - {Max:N0}{message}";
 
                     return $"{((Skill)Stat).ToSentence()} {amount}";
 
                 case EmoteType.InqStringStat:
-                    return $"{(PropertyString)Stat} == \"{TestString}\"";
+                    return $"{(PropertyString)Stat} == \"{TestString}\"{message}";
 
                 case EmoteType.InqSkillTrained:
                 case EmoteType.InqSkillSpecialized:
+                    return $"{((Skill)Stat).ToSentence()}{message}";
+
                 case EmoteType.UntrainSkill:
                     return $"{((Skill)Stat).ToSentence()}";
 
                 case EmoteType.InqYesNo:
-                    return TestString;
+                    return TestString + message;
 
                 case EmoteType.Give:
                 case EmoteType.TakeItems:
-                case EmoteType.InqOwnsItems:
 
                     var wcid = WeenieClassId.Value;
                     var stackSize = (StackSize ?? 1) > 1 ? $", {StackSize:N0}" : "";
                     return $"{WeenieName}{stackSize}";
+
+                case EmoteType.InqOwnsItems:
+
+                    wcid = WeenieClassId.Value;
+                    stackSize = (StackSize ?? 1) > 1 ? $", {StackSize:N0}" : "";
+                    return $"{WeenieName}{stackSize}{message}";
 
                 case EmoteType.Motion:
                 case EmoteType.ForceMotion:
