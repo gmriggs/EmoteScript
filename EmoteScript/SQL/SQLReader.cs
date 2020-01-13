@@ -253,15 +253,35 @@ namespace EmoteScript.SQL
             else if (prop.PropertyType.FullName.Contains("MotionStance"))
             {
                 if (!Enum.TryParse(value, out MotionStance result))
-                    Console.WriteLine($"Failed to parse {value} into MotionStance");
-
+                {
+                    if (value.StartsWith("0x"))
+                    {
+                        value = value.Replace("0x", "");
+                        if (!uint.TryParse(value, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var iResult))
+                            Console.WriteLine($"Failed to parse {value} into MotionStance");
+                        
+                        return (MotionStance)iResult;
+                    }
+                    else
+                        Console.WriteLine($"Failed to parse {value} into MotionStance");
+                }
                 return result;
             }
             else if (prop.PropertyType.FullName.Contains("MotionCommand"))
             {
                 if (!Enum.TryParse(value, out MotionCommand result))
-                    Console.WriteLine($"Failed to parse {value} into MotionCommand");
+                {
+                    if (value.StartsWith("0x"))
+                    {
+                        value = value.Replace("0x", "");
+                        if (!uint.TryParse(value, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var iResult))
+                            Console.WriteLine($"Failed to parse {value} into MotionCommand");
 
+                        return (MotionCommand)iResult;
+                    }
+                    else
+                        Console.WriteLine($"Failed to parse {value} into MotionCommand");
+                }
                 return result;
             }
             else if (prop.PropertyType.FullName.Contains("DestinationType"))
