@@ -213,6 +213,8 @@ namespace EmoteScript
             SetOrientation(pos?.Frame?.Orientation);
         }
 
+        public static HashSet<string> GlobalKeys = new HashSet<string>();
+        
         public string GetMessageKey()
         {
             if (!HasBranches)
@@ -302,10 +304,19 @@ namespace EmoteScript
 
                 var div = Message != null ? "@" : "-";
                 
-                key += $"{div}{rangeNum}";
+                if (rangeNum != null)
+                    key += $"{div}{rangeNum}";
             }
 
-            return key;
+            var newKey = key;
+            var i = 2;
+            while (GlobalKeys.Contains(newKey))
+            {
+                newKey = key + $"-{i++}";
+            }
+            GlobalKeys.Add(newKey);
+
+            return newKey;
         }
 
         [JsonIgnore]
