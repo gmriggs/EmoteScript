@@ -18,7 +18,7 @@ namespace EmoteScript.SQL
             {
                 var objectId = emoteTable.Wcid != null ? emoteTable.Wcid.ToString() : "#####";
                 var categoryStr = $"{(int)emoteSet.Category} /* {emoteSet.Category} */";
-                var probability = GetSQLString(emoteSet.Probability);
+                var probability = emoteSet.Probability?.ToString() ?? "1";
                 var weenieClassIdStr = GetSQLString(emoteSet.WeenieClassId) + GetWeenieName(emoteSet.WeenieClassId);
                 var styleStr = emoteSet.Style != null ? $"{(int)emoteSet.Style} /* {emoteSet.Style} */" : "NULL";
                 var substyleStr = emoteSet.Substyle != null ? $"{(int)emoteSet.Substyle} /* {emoteSet.Substyle} */" : "NULL";

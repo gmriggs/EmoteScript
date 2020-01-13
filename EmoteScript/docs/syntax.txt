@@ -152,8 +152,8 @@ StopEvent - Stops a world event in EventManager.
 TakeItems - Removes some amount of a particular item from the player's inventory.
 TeachSpell - Adds a spell to the player's spellbook.
 TeleportTarget - Teleports the player to a particular location.
-Tell - Sends a purple text message directly to the player.
-TellFellow - Sends a purple text message to each player in the fellowship.
+Tell - Sends a yellow text message directly to the player.
+TellFellow - Sends a yellow text message to each player in the fellowship.
 TextDirect - Sends a green text message directly to the player.
 Turn - Turns to a particular angle.
 TurnToTarget - Turn to the target player.
