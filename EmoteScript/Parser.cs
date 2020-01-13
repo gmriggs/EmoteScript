@@ -61,7 +61,7 @@ namespace EmoteScript
 
             var emoteSets = new List<EmoteSet>();
 
-            var stack = new Stack<EmoteSet>();
+            var stack = new Stack<EmoteSetIndent>();
 
             for (var i = 0; i < lines.Length; i++)
             {
@@ -77,17 +77,25 @@ namespace EmoteScript
                 var emoteSetLine = line as EmoteSet_Line;
                 var emoteLine = line as Emote_Line;
 
-                stack.TryPeek(out var emoteSet);
+                stack.TryPeek(out var emoteSetIndent);
+
+                var emoteSet = emoteSetIndent?.EmoteSet;
+                var indent = emoteSetIndent?.Indent;
+
                 var emote = emoteSet?.Emotes.LastOrDefault();
 
                 if (emoteSetLine != null)
                 {
-                    while (emote != null && (!emote.HasBranches || emote.HasBranches && emote.HasBranchesCompleted || emote.Type == EmoteType.Goto))
+                    while (emote != null && (!emote.HasBranches || emote.HasBranches && emote.HasBranchesCompleted) || indent > GetIndentLevel(lines[i]))
                     {
                         stack.Pop();
 
                         // try to go back 1
-                        stack.TryPeek(out emoteSet);
+                        stack.TryPeek(out emoteSetIndent);
+
+                        emoteSet = emoteSetIndent?.EmoteSet;
+                        indent = emoteSetIndent?.Indent;
+
                         emote = emoteSet?.Emotes.LastOrDefault();
                     }
 
@@ -114,7 +122,7 @@ namespace EmoteScript
                     // start processing new emote set
                     emoteSets.Add(emoteSetLine.EmoteSet);
 
-                    stack.Push(emoteSetLine.EmoteSet);
+                    stack.Push(new EmoteSetIndent(emoteSetLine.EmoteSet, GetIndentLevel(lines[i])));
                 }
                 else if (emoteLine != null)
                 {
@@ -127,10 +135,16 @@ namespace EmoteScript
 
                     // add emote to current set
                     emoteSet.Add(emoteLine.Emote);
+                    emoteSetIndent.Indent = GetIndentLevel(lines[i]);
                 }
             }
 
             return emoteSets;
+        }
+
+        public static int GetIndentLevel(string line)
+        {
+            return line.Length - line.TrimStart().Length;
         }
 
         public static string PreprocessLine(string line)

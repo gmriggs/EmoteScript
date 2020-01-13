@@ -300,12 +300,19 @@ namespace EmoteScript
                 var minRange = Min ?? Min64 ?? MinFloat;
                 var maxRange = Max ?? Max64 ?? MaxFloat;
 
-                var rangeNum = minRange ?? maxRange;
+                var rangeStr = $"{minRange}";
+                if (maxRange != null)
+                {
+                    if (rangeStr != null)
+                        rangeStr += $"-{maxRange}";
+                    else
+                        rangeStr = $"{maxRange}";
+                }
 
-                var div = Message != null ? "@" : "-";
+                var div = Message != null ? "@" : "_";
                 
-                if (rangeNum != null)
-                    key += $"{div}{rangeNum}";
+                if (!string.IsNullOrEmpty(rangeStr))
+                    key += $"{div}{rangeStr}";
             }
 
             var newKey = key;
