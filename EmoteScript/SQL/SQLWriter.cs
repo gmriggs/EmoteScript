@@ -16,12 +16,14 @@ namespace EmoteScript.SQL
 
             foreach (var emoteSet in emoteTable.EmoteSets)
             {
+                if (emoteSet.Emotes?.Count == 0) continue;
+                
                 var objectId = emoteTable.Wcid != null ? emoteTable.Wcid.ToString() : "#####";
                 var categoryStr = $"{(int)emoteSet.Category} /* {emoteSet.Category} */";
                 var probability = emoteSet.Probability?.ToString() ?? "1";
                 var weenieClassIdStr = GetSQLString(emoteSet.WeenieClassId) + GetWeenieName(emoteSet.WeenieClassId);
-                var styleStr = emoteSet.Style != null ? $"0x{(int)emoteSet.Style:X8} /* {emoteSet.Style} */" : "NULL";
-                var substyleStr = emoteSet.Substyle != null ? $"0x{(int)emoteSet.Substyle:X8} /* {emoteSet.Substyle} */" : "NULL";
+                var styleStr = emoteSet.Style != null ? $"0x{(uint)emoteSet.Style:X8} /* {emoteSet.Style} */" : "NULL";
+                var substyleStr = emoteSet.Substyle != null ? $"0x{(uint)emoteSet.Substyle:X8} /* {emoteSet.Substyle} */" : "NULL";
                 var quest = GetSQLString(emoteSet.Quest);
                 var vendorTypeStr = emoteSet.VendorType != null ? $"{(int)emoteSet.VendorType} /* {emoteSet.VendorType} */" : "NULL";
                 var minHealth = GetSQLString(emoteSet.MinHealth);
