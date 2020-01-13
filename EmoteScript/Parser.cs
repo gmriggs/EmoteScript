@@ -82,13 +82,13 @@ namespace EmoteScript
 
                 if (emoteSetLine != null)
                 {
-                    while (emote != null && (!emote.HasBranches || emote.HasBranches && emote.HasBranchesCompleted))
+                    while (emote != null && (!emote.HasBranches || emote.HasBranches && emote.HasBranchesCompleted || emote.Type == EmoteType.Goto))
                     {
                         stack.Pop();
 
                         // try to go back 1
                         stack.TryPeek(out emoteSet);
-                        emote = emoteSet?.Emotes.Last();
+                        emote = emoteSet?.Emotes.LastOrDefault();
                     }
 
                     if (emote != null && emote.HasBranches)
