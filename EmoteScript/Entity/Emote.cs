@@ -220,7 +220,7 @@ namespace EmoteScript
 
             string key = Message;
 
-            if (key.Contains("@"))
+            if (key != null && key.Contains("@"))
                 return key;
 
             switch (Type)
