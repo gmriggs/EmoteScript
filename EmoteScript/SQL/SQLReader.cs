@@ -119,6 +119,11 @@ namespace EmoteScript.SQL
                 var column = currentColumns[i];
                 var propName = GetPropertyName(column);
 
+                if (propName.Equals("MinDbl"))
+                    propName = "MinFloat";
+                else if (propName.Equals("MaxDbl"))
+                    propName = "MaxFloat";
+
                 if (SkipColumns.Contains(propName))
                     continue;
 
@@ -288,6 +293,13 @@ namespace EmoteScript.SQL
             {
                 if (!Enum.TryParse(value, out DestinationType result))
                     Console.WriteLine($"Failed to parse {value} into DestinationType");
+
+                return result;
+            }
+            else if (prop.PropertyType.FullName.Contains("Sound"))
+            {
+                if (!Enum.TryParse(value, out Sound result))
+                    Console.WriteLine($"Failed to parse {value} into Sound");
 
                 return result;
             }

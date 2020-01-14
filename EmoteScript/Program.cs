@@ -33,7 +33,7 @@ namespace EmoteScript
             }
             
             // if no extension is specified, assume .es
-            if (!filename.Contains("."))
+            if (!filename.EndsWith(".es", StringComparison.OrdinalIgnoreCase) && !filename.EndsWith(".sql", StringComparison.OrdinalIgnoreCase) && !filename.EndsWith(".json", StringComparison.OrdinalIgnoreCase))
                 filename += ".es";
 
             if (!File.Exists(filename))

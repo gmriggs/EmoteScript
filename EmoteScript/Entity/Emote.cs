@@ -319,7 +319,7 @@ namespace EmoteScript
             var i = 2;
             while (GlobalKeys.Contains(newKey))
             {
-                newKey = key + $"-{i++}";
+                newKey = key + $"_{i++}";
             }
             GlobalKeys.Add(newKey);
 
