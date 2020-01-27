@@ -222,8 +222,16 @@ namespace EmoteScript
 
             string key = Message;
 
-            if (key != null && key.Contains("@"))
-                return key;
+            if (key != null)
+            {
+                if (Type.ToString().Contains("Quest"))
+                {
+                    if (key.Contains("@"))
+                        return key;
+                }
+                else
+                    return key;
+            }
 
             switch (Type)
             {
