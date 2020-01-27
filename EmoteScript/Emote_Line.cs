@@ -73,7 +73,7 @@ namespace EmoteScript
             {
                 if (!FieldTypes.ContainsKey(kvp.Key))
                 {
-                    Console.WriteLine($"Emote_Line.BuldEmote({kvp.Key}) - skipping");
+                    Console.WriteLine($"Emote_Line.BuildEmote({kvp.Key}) - skipping");
                     continue;
                 }
 

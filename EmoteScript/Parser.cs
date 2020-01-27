@@ -244,6 +244,8 @@ namespace EmoteScript
 
         public static MotionStance? TryParseMotionStance(string stanceStr)
         {
+            stanceStr = stanceStr.Replace("MotionStance.", "", StringComparison.OrdinalIgnoreCase);
+
             if (!Enum.TryParse(stanceStr, true, out MotionStance stance))
             {
                 Console.WriteLine($"TryParseMotionStance() - couldn't convert MotionStance from \"{stanceStr}\"");
@@ -364,6 +366,9 @@ namespace EmoteScript
 
         public static DestinationType? TryParseDestinationType(string destinationTypeStr)
         {
+            destinationTypeStr = destinationTypeStr.Replace("DestinationType.", "");
+            destinationTypeStr = destinationTypeStr.Replace("Destination.", "");
+
             if (!Enum.TryParse(destinationTypeStr, true, out DestinationType destinationType))
             {
                 Console.WriteLine($"TryParseDestinationType() - couldn't parse DestinationType from \"{destinationTypeStr}\"");
@@ -400,6 +405,9 @@ namespace EmoteScript
 
         public static VendorType? TryParseVendorType(string vendorTypeStr)
         {
+            vendorTypeStr = vendorTypeStr.Replace("VendorType.", "");
+            vendorTypeStr = vendorTypeStr.Replace("Vendor.", "");
+
             if (!Enum.TryParse(vendorTypeStr, true, out VendorType vendorType))
             {
                 Console.WriteLine($"TryParseVendorType() - couldn't convert VendorType from \"{vendorTypeStr}\"");
@@ -410,6 +418,9 @@ namespace EmoteScript
 
         public static CharacterTitle? TryParseCharacterTitle(string characterTitleStr)
         {
+            characterTitleStr = characterTitleStr.Replace("CharacterTitle.", "");
+            characterTitleStr = characterTitleStr.Replace("Title.", "");
+
             if (!Enum.TryParse(characterTitleStr, true, out CharacterTitle characterTitle))
             {
                 Console.WriteLine($"TryParseCharacterTitle() - couldn't convert CharacterTitle from \"{characterTitleStr}\"");
@@ -424,7 +435,7 @@ namespace EmoteScript
             if (wcid != null)
                 return wcid;
 
-            var match = Regex.Match(weenieClassIdStr, @"\(([\d]+)\)");
+            var match = Regex.Match(weenieClassIdStr, @"\((\d+)\)");
             if (!match.Success)
             {
                 Console.WriteLine($"TryParseWeenieClassId() - couldn't convert WeenieClassId from \"{weenieClassIdStr}\"");
@@ -527,6 +538,9 @@ namespace EmoteScript
 
         public static ContractId? TryParseContractId(string contractIdStr)
         {
+            contractIdStr = contractIdStr.Replace("ContractId.", "", StringComparison.OrdinalIgnoreCase);
+            contractIdStr = contractIdStr.Replace("Contract.", "", StringComparison.OrdinalIgnoreCase);
+
             if (!Enum.TryParse(contractIdStr, true, out ContractId contractId))
             {
                 Console.WriteLine($"TryParseContractId() - couldn't convert ContractId from \"{contractIdStr}\"");

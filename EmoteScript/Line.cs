@@ -129,7 +129,7 @@ namespace EmoteScript
             {
                 var delimiter = GetDelimiter(line);
 
-                if (delimiter == -1)
+                if (delimiter == -1 || delimiter == line.Length)
                     break;
 
                 var token = line.Substring(0, delimiter);
@@ -146,6 +146,8 @@ namespace EmoteScript
 
         public static int GetDelimiter(string line)
         {
+            var blockQuote = line.Length > 0 && line[0] == '\"';
+            
             var quoteIdx = line.IndexOf('\"');
             var commaIdx = line.IndexOf(',');
 
@@ -180,6 +182,10 @@ namespace EmoteScript
 
                 startIdx = quoteIdx + 1;
             }
+
+            if (!blockQuote)
+                quoteIdx++;
+            
             return quoteIdx;
         }
 
