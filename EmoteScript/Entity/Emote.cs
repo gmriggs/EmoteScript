@@ -81,17 +81,16 @@ namespace EmoteScript
         {
             get
             {
-                var categories = new Dictionary<EmoteCategory, float>();
+                var completed = new HashSet<EmoteCategory>();
 
                 foreach (var branch in Branches)
                 {
-                    if (!categories.ContainsKey(branch.Category))
-                        categories.Add(branch.Category, 0.0f);
+                    // incremental format
+                    var totalProbability = branch.Probability ?? 1.0f;
 
-                    categories[branch.Category] += branch.Probability ?? 1.0f;
+                    if (totalProbability == 1.0f)
+                        completed.Add(branch.Category);
                 }
-
-                var completed = categories.Values.Where(i => i >= 1.0f).ToList();
 
                 return completed.Count == ValidBranches.Count;
             }

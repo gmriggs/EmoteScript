@@ -58,11 +58,6 @@ namespace EmoteScript
 
         public static Emote BuildEmote(EmoteType type, Dictionary<string, string> dict, float? delay = null)
         {
-            if (type == EmoteType.AwardLevelProportionalXP)
-            {
-                var debug = true;
-            }
-            
             var emote = Factory.Create(type);
 
             emote.Delay = delay;

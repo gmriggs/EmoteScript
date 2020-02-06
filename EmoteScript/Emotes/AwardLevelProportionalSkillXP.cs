@@ -11,13 +11,13 @@ namespace EmoteScript.Emotes
 
         }
         
-        public AwardLevelProportionalSkillXP(Skill skill, float percent, int? max)
+        public AwardLevelProportionalSkillXP(Skill skill, float percent, long? max)
             
             : base(EmoteType.AwardLevelProportionalSkillXP)
         {
             Stat = (int)skill;
             Percent = percent;
-            Max = max;
+            Max64 = max;
         }
     }
 }
