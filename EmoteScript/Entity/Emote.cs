@@ -582,17 +582,18 @@ namespace EmoteScript
                     return $"{((Skill)Stat).ToSentence()}, {Math.Round((Percent ?? 0) * 100, 2)}%{suffix}";
 
                 case EmoteType.AwardLuminance:
+                case EmoteType.SpendLuminance:
                     return $"{HeroXP64:N0}";
 
                 case EmoteType.AwardSkillXP:
                 case EmoteType.AwardSkillPoints:
-                    return $"{((Skill)Stat).ToSentence()} {Amount:N0}";
+                    return $"{((Skill)Stat).ToSentence()}, {Amount:N0}";
 
                 case EmoteType.CreateTreasure:
                     return $"Type: {TreasureType}, Class: {TreasureClass}, WealthRating: {WealthRating}";
 
                 case EmoteType.SetFloatStat:
-                    return $"{(PropertyFloat)Stat} = {Percent}";
+                    return $"{(PropertyFloat)Stat}, {Percent}";
 
                 case EmoteType.DecrementIntStat:
                 case EmoteType.IncrementIntStat:
@@ -600,13 +601,13 @@ namespace EmoteScript
                     return $"{(PropertyInt)Stat}{suffix}";
 
                 case EmoteType.SetIntStat:
-                    return $"{(PropertyInt)Stat} = {Amount:N0}";
+                    return $"{(PropertyInt)Stat}, {Amount:N0}";
 
                 case EmoteType.SetInt64Stat:
-                    return $"{(PropertyInt64)Stat} = {Amount64:N0}";
+                    return $"{(PropertyInt64)Stat}, {Amount64:N0}";
 
                 case EmoteType.SetBoolStat:
-                    return $"{(PropertyBool)Stat} = {(Amount == 0 ? "False" : "True")}";
+                    return $"{(PropertyBool)Stat}, {(Amount == 0 ? "False" : "True")}";
 
                 case EmoteType.IncrementMyQuest:
                 case EmoteType.IncrementQuest:
@@ -622,7 +623,7 @@ namespace EmoteScript
                     if (Max != Min)
                         amount += $" - {Max:N0}";
 
-                    return $"{(PropertyAttribute)Stat} {amount}{message}";
+                    return $"{(PropertyAttribute)Stat}, {amount}{message}";
 
                 case EmoteType.InqBoolStat:
 
@@ -634,7 +635,7 @@ namespace EmoteScript
                     if (MaxFloat != MinFloat)
                         amount += $" - {MaxFloat}";
 
-                    return $"{(PropertyFloat)Stat} {amount}{message}";
+                    return $"{(PropertyFloat)Stat}, {amount}{message}";
 
                 case EmoteType.InqIntStat:
 
@@ -642,7 +643,7 @@ namespace EmoteScript
                     if (Max != Min)
                         amount += $" - {Max:N0}";
 
-                    return $"{(PropertyInt)Stat} {amount}{message}";
+                    return $"{(PropertyInt)Stat}, {amount}{message}";
 
                 case EmoteType.InqInt64Stat:
 
@@ -650,7 +651,7 @@ namespace EmoteScript
                     if (Max64 != Min64)
                         amount += $" - {Max64:N0}{message}";
 
-                    return $"{(PropertyInt64)Stat} {amount}";
+                    return $"{(PropertyInt64)Stat}, {amount}";
 
                 case EmoteType.InqQuestSolves:
                     var numSolves = Min != null ? $", {Min}" : "";
@@ -665,7 +666,7 @@ namespace EmoteScript
                     if (Max != Min)
                         amount += $" - {Max:N0}{message}";
 
-                    return $"{(PropertyAttribute2nd)Stat} {amount}";
+                    return $"{(PropertyAttribute2nd)Stat}, {amount}";
 
                 case EmoteType.InqSkillStat:
                 case EmoteType.InqRawSkillStat:
@@ -674,10 +675,10 @@ namespace EmoteScript
                     if (Max != Min)
                         amount += $" - {Max:N0}{message}";
 
-                    return $"{((Skill)Stat).ToSentence()} {amount}";
+                    return $"{((Skill)Stat).ToSentence()}, {amount}";
 
                 case EmoteType.InqStringStat:
-                    return $"{(PropertyString)Stat} == \"{TestString}\"{message}";
+                    return $"{(PropertyString)Stat}, \"{TestString}\"{message}";
 
                 case EmoteType.InqSkillTrained:
                 case EmoteType.InqSkillSpecialized:
@@ -726,9 +727,6 @@ namespace EmoteScript
                 case EmoteType.SetMyQuestCompletions:
                 case EmoteType.SetQuestCompletions:
                     return $"{Message}, {Amount}";
-
-                case EmoteType.SpendLuminance:
-                    return $"{Amount:N0}";
 
                 case EmoteType.Turn:
                     var rotation = new Quaternion(AnglesX ?? 0, AnglesY ?? 0, AnglesZ ?? 0, AnglesW ?? 1);
