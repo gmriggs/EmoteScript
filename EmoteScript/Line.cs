@@ -205,9 +205,17 @@ namespace EmoteScript
         {
             var trim = new List<string>();
 
-            foreach (var token in tokens)
-                trim.Add(token.TrimStart('\"').TrimEnd('\"').Trim().Replace("\\\"", "\""));
+            foreach (var _token in tokens)
+            {
+                var token = _token;
+                
+                if (token.StartsWith('"') && token.EndsWith('"'))
+                    token = token.Substring(1, token.Length - 2);
 
+                token = token.Replace("\\\"", "\"");
+
+                trim.Add(token);
+            }
             return trim;
         }
 
