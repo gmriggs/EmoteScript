@@ -144,11 +144,22 @@ namespace EmoteScript
             return Trim(tokens);
         }
 
+        public static int GetQuoteIdx(string line, int startIdx = 0)
+        {
+            var idx = line.IndexOf('\"', startIdx);
+            while (idx > 0 && line[idx - 1] == '\\')
+            {
+                startIdx = idx + 1;
+                idx = line.IndexOf('\"', startIdx);
+            }
+            return idx;
+        }
+        
         public static int GetDelimiter(string line)
         {
             var blockQuote = line.Length > 0 && line[0] == '\"';
-            
-            var quoteIdx = line.IndexOf('\"');
+
+            var quoteIdx = GetQuoteIdx(line);
             var commaIdx = line.IndexOf(',');
 
             if (quoteIdx == -1)
@@ -169,7 +180,7 @@ namespace EmoteScript
 
             while (true)
             {
-                quoteIdx = line.IndexOf('\"', startIdx);
+                quoteIdx = GetQuoteIdx(line, startIdx);
 
                 if (quoteIdx == -1)
                 {
@@ -211,7 +222,7 @@ namespace EmoteScript
             var trim = new List<string>();
 
             foreach (var token in tokens)
-                trim.Add(token.TrimStart('\"').Trim());
+                trim.Add(token.TrimStart('\"').Trim().Replace("\\\"", "\""));
 
             return trim;
         }
