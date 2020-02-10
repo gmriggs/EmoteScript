@@ -157,47 +157,31 @@ namespace EmoteScript
         
         public static int GetDelimiter(string line)
         {
-            var blockQuote = line.Length > 0 && line[0] == '\"';
+            var blockQuote = line.Length > 1 && line[0] == '\"';
 
-            var quoteIdx = GetQuoteIdx(line);
-            var commaIdx = line.IndexOf(',');
-
-            if (quoteIdx == -1)
+            if (blockQuote)
             {
-                // directive follows?
-                while (commaIdx != -1)
+                var endQuoteIdx = GetQuoteIdx(line, 1);
+                if (endQuoteIdx == -1)
                 {
-                    var suffix = line.Substring(commaIdx + 1).Trim();
-                    if (ValidSuffix(suffix))
-                        break;
-
-                    commaIdx = line.IndexOf(',', commaIdx + 1);
-                }
-                return commaIdx;
-            }
-
-            var startIdx = quoteIdx + 1;
-
-            while (true)
-            {
-                quoteIdx = GetQuoteIdx(line, startIdx);
-
-                if (quoteIdx == -1)
-                {
-                    Console.WriteLine($"Line.GetDelimiter(): unterminated quotes on line {line}");
+                    Console.WriteLine($"Line.GetDelimiter(): unterminated blockquotes on line {line}");
                     return -1;
                 }
-
-                if (line[quoteIdx - 1] != '\\')
-                    break;
-
-                startIdx = quoteIdx + 1;
+                return endQuoteIdx + 1;
             }
 
-            if (!blockQuote)
-                quoteIdx++;
-            
-            return quoteIdx;
+            var commaIdx = line.IndexOf(',');
+
+            while (commaIdx != -1)
+            {
+                // directive follows?
+                var suffix = line.Substring(commaIdx + 1).Trim();
+                if (ValidSuffix(suffix))
+                    break;
+
+                commaIdx = line.IndexOf(',', commaIdx + 1);
+            }
+            return commaIdx;
         }
 
         public static bool ValidSuffix(string line)
@@ -222,7 +206,7 @@ namespace EmoteScript
             var trim = new List<string>();
 
             foreach (var token in tokens)
-                trim.Add(token.TrimStart('\"').Trim().Replace("\\\"", "\""));
+                trim.Add(token.TrimStart('\"').TrimEnd('\"').Trim().Replace("\\\"", "\""));
 
             return trim;
         }
