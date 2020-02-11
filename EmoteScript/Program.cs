@@ -86,7 +86,7 @@ namespace EmoteScript
             else
             {
                 // convert script to json
-                es2json(emoteTable.EmoteSets, fi);
+                es2json(emoteTable, fi);
             }
         }
 
@@ -101,15 +101,17 @@ namespace EmoteScript
             OutputSQL(emoteTable, sqlFile);
         }
 
-        public static void es2json(List<EmoteSet> emoteSets, FileInfo esFile)
+        public static void es2json(EmoteTable emoteTable, FileInfo esFile)
         {
             var jsonFilename = Path.ChangeExtension(esFile.FullName, ".json");
             var jsonFile = new FileInfo(jsonFilename);
 
+            var jsonTable = new JSON.EmoteTable(emoteTable);
+            
             // check if file already exists?
             
             // output json file
-            OutputJSON(emoteSets, jsonFile);
+            OutputJSON(jsonTable, jsonFile);
         }
 
         public static void sql2es(FileInfo sqlFile)
@@ -191,28 +193,30 @@ namespace EmoteScript
                 Console.WriteLine(sqlLines);
         }
 
-        public static void OutputJSON(List<EmoteSet> emoteSets, FileInfo jsonFile)
+        public static void OutputJSON(JSON.EmoteTable emoteTable, FileInfo jsonFile)
         {
-            var json = BuildJSON(emoteSets);
+            var json = BuildJSON(emoteTable);
 
             File.WriteAllText(jsonFile.FullName, json);
 
             Console.WriteLine($"Compiled {jsonFile.FullName}");
         }
 
-        public static string BuildJSON(List<EmoteSet> emoteSets)
+        public static string BuildJSON(JSON.EmoteTable emoteTable)
         {
             var settings = new JsonSerializerSettings();
             settings.NullValueHandling = NullValueHandling.Ignore;
             settings.Formatting = Formatting.Indented;
-            settings.ContractResolver = new LowercaseContractResolver();
+            //settings.ContractResolver = new LowercaseContractResolver();
             
-            return JsonConvert.SerializeObject(emoteSets, settings);
+            return JsonConvert.SerializeObject(emoteTable, settings);
         }
 
-        public static void ShowJSON(List<EmoteSet> emoteSets)
+        public static void ShowJSON(EmoteTable emoteTable)
         {
-            var json = BuildJSON(emoteSets);
+            var jsonTable = new JSON.EmoteTable(emoteTable);
+            
+            var json = BuildJSON(jsonTable);
             
             Console.WriteLine(json);
         }
