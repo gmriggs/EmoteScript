@@ -163,10 +163,17 @@ namespace EmoteScript.SQL
             else if (prop.PropertyType.FullName.Contains("Int32"))
             {
                 if (!int.TryParse(value, out var result))
-                    Console.WriteLine($"Failed to parse {value} into Int32");
-
+                {
+                    if (value.StartsWith("0x"))
+                    {
+                        value = value.Replace("0x", "");
+                        if (!int.TryParse(value, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out result))
+                            Console.WriteLine($"Failed to parse {value} into Int32");
+                    }
+                    else
+                        Console.WriteLine($"Failed to parse {value} into Int32");
+                }
                 return result;
-
             }
             else if (prop.PropertyType.FullName.Contains("String"))
                 return value.Replace("''", "'");
