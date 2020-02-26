@@ -825,5 +825,26 @@ namespace EmoteScript
                 return new Frame(origin, orientation);
             }
         }
+
+        public void NormalRange()
+        {
+            if (Min != null && Max == null)
+                Max = int.MaxValue;
+
+            if (Max != null && Min == null)
+                Min = int.MinValue;
+
+            if (MinFloat != null && MaxFloat == null)
+                MaxFloat = float.MaxValue;
+
+            if (MaxFloat != null && MinFloat == null)
+                MinFloat = float.MinValue;
+
+            if (Min64 != null && Max64 == null)
+                Max64 = long.MaxValue;
+
+            if (Max64 != null && Min64 == null)
+                Min64 = long.MinValue;
+        }
     }
 }

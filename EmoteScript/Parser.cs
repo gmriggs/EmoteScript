@@ -576,7 +576,7 @@ namespace EmoteScript
         {
             next = line;
 
-            var match = Regex.Match(line, @"^([0-9, ]+)");
+            var match = Regex.Match(line, @"^([0-9, -]+)");
             if (!match.Success)
                 return null;
 
@@ -595,7 +595,7 @@ namespace EmoteScript
         {
             next = line;
 
-            var match = Regex.Match(line, @"^([0-9, ]+)");
+            var match = Regex.Match(line, @"^([0-9, -]+)");
             if (!match.Success)
                 return null;
 
@@ -614,7 +614,7 @@ namespace EmoteScript
         {
             next = line;
 
-            var match = Regex.Match(line, @"^([0-9%. ]+)");
+            var match = Regex.Match(line, @"^([0-9%. E+-]+)");
             if (!match.Success)
                 return null;
 
@@ -639,7 +639,7 @@ namespace EmoteScript
         {
             next = line;
 
-            var match = Regex.Match(line, @"^([0-9, ]+) ?- ?([0-9, ]+)");
+            var match = Regex.Match(line, @"^([0-9, -]+) ?- ?([0-9, -]+)");
             if (!match.Success)
             {
                 var numbers = TryParseNumbers(line, out next);
@@ -667,7 +667,7 @@ namespace EmoteScript
         {
             next = line;
 
-            var match = Regex.Match(line, @"^([0-9, ]+) ?- ?([0-9, ]+)");
+            var match = Regex.Match(line, @"^([0-9, -]+) ?- ?([0-9, -]+)");
             if (!match.Success)
             {
                 var numbers = TryParseNumbersLong(line, out next);
@@ -695,7 +695,7 @@ namespace EmoteScript
         {
             next = line;
 
-            var match = Regex.Match(line, @"^([0-9.%, ]+) ?- ?([0-9.%, ]+)");
+            var match = Regex.Match(line, @"^([0-9.%, E+-]+) ?- ?([0-9.%, E+-]+)");
             if (!match.Success)
             {
                 var numbers = TryParsePercent(line, out next);

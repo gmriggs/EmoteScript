@@ -140,5 +140,14 @@ namespace EmoteScript
 
         [JsonIgnore]
         public bool Inline => Links != null && Links.Count == 1;
+
+        public void NormalRange()
+        {
+            if (MinHealth != null && MaxHealth == null)
+                MaxHealth = float.MaxValue;
+
+            if (MaxHealth != null && MinHealth == null)
+                MinHealth = float.MinValue;
+        }
     }
 }

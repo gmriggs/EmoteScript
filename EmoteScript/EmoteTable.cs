@@ -97,5 +97,19 @@ namespace EmoteScript
                     emote.ValidBranches = Emote.GetValidBranches(emote.Type);
             }
         }
+
+        /// <summary>
+        /// Normalizes the Min-Max range values
+        /// </summary>
+        public void NormalRange()
+        {
+            foreach (var emoteSet in EmoteSets)
+            {
+                emoteSet.NormalRange();
+
+                foreach (var emote in emoteSet.Emotes)
+                    emote.NormalRange();
+            }
+        }
     }
 }

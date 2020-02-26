@@ -106,6 +106,8 @@ namespace EmoteScript
             var jsonFilename = Path.ChangeExtension(esFile.FullName, ".json");
             var jsonFile = new FileInfo(jsonFilename);
 
+            emoteTable.NormalRange();
+            
             var jsonTable = new JSON.EmoteTable(emoteTable);
             
             // check if file already exists?
@@ -182,6 +184,8 @@ namespace EmoteScript
 
         public static List<string> BuildSQL(EmoteTable emoteTable)
         {
+            emoteTable.NormalRange();
+            
             return SQLWriter.GetSQL(emoteTable);
         }
 
