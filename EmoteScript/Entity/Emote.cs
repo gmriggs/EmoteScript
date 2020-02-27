@@ -694,7 +694,7 @@ namespace EmoteScript
                 case EmoteType.TakeItems:
 
                     var wcid = WeenieClassId.Value;
-                    var stackSize = (StackSize ?? 1) > 1 ? $", {StackSize:N0}" : "";
+                    var stackSize = (StackSize ?? 1) != 1 ? $", {StackSize:N0}" : "";
                     return $"{WeenieName}{stackSize}";
 
                 case EmoteType.InqOwnsItems:
