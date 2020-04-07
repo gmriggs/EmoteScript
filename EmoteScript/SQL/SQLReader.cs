@@ -310,6 +310,13 @@ namespace EmoteScript.SQL
 
                 return result;
             }
+            else if (prop.PropertyType.FullName.Contains("SpellId"))
+            {
+                if (!Enum.TryParse(value, out SpellId result))
+                    Console.WriteLine($"Failed to parse {value} into SpellId");
+
+                return result;
+            }
 
             Console.WriteLine($"Unknown property type: {prop.PropertyType.Name}");
             
