@@ -317,6 +317,20 @@ namespace EmoteScript.SQL
 
                 return result;
             }
+            else if (prop.PropertyType.FullName.Contains("VendorType"))
+            {
+                if (!Enum.TryParse(value, out VendorType result))
+                    Console.WriteLine($"Failed to parse {value} into VendorType");
+
+                return result;
+            }
+            else if (prop.PropertyType.FullName.Contains("PlayScript"))
+            {
+                if (!Enum.TryParse(value, out PlayScript result))
+                    Console.WriteLine($"Failed to parse {value} into PlayScript");
+
+                return result;
+            }
 
             Console.WriteLine($"Unknown property type: {prop.PropertyType.Name}");
             
