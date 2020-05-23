@@ -13,7 +13,7 @@ namespace EmoteScript.Emotes
 
             : base(EmoteType.LocalSignal)
         {
-            TestString = message;
+            Message = message;
         }
     }
 }

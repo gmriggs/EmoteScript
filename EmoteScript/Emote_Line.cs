@@ -597,7 +597,7 @@ namespace EmoteScript
             { EmoteType.InqQuest, new List<EmoteField>() { EmoteField.Message } },
             { EmoteType.InqYesNo, new List<EmoteField>() { EmoteField.TestString, EmoteField.Message } },
             { EmoteType.LocalBroadcast, new List<EmoteField>() { EmoteField.Message } },
-            { EmoteType.LocalSignal, new List<EmoteField>() { EmoteField.TestString } },
+            { EmoteType.LocalSignal, new List<EmoteField>() { EmoteField.Message } },
             { EmoteType.Motion, new List<EmoteField>() { EmoteField.Motion } },
             { EmoteType.Move, new List<EmoteField>() { EmoteField.OriginAngles } },
             { EmoteType.MoveToPos, new List<EmoteField>() { EmoteField.Position } },
