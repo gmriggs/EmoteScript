@@ -141,8 +141,6 @@ namespace EmoteScript
                 case EmoteType.InqFloatStat:
                 case EmoteType.InqIntStat:
                 case EmoteType.InqInt64Stat:
-                case EmoteType.InqMyQuestBitsOff:
-                case EmoteType.InqMyQuestBitsOn:
                 case EmoteType.InqNumCharacterTitles:
                 case EmoteType.InqOwnsItems:
                 case EmoteType.InqPackSpace:
@@ -158,12 +156,14 @@ namespace EmoteScript
 
                     return Branch.Test;
 
-                case EmoteType.InqMyQuest:
                 case EmoteType.InqQuest:
                 case EmoteType.InqQuestBitsOff:
                 case EmoteType.InqQuestBitsOn:
-                case EmoteType.InqMyQuestSolves:
                 case EmoteType.InqQuestSolves:
+                case EmoteType.InqMyQuest:
+                case EmoteType.InqMyQuestBitsOff:
+                case EmoteType.InqMyQuestBitsOn:
+                case EmoteType.InqMyQuestSolves:
                 case EmoteType.UpdateMyQuest:
                 case EmoteType.UpdateQuest:
 
