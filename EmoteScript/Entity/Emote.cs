@@ -221,9 +221,11 @@ namespace EmoteScript
 
             string key = Message;
 
+            var questOrEvent = Type.ToString().Contains("Quest") || Type.ToString().Contains("Event");
+
             if (key != null)
             {
-                if (Type.ToString().Contains("Quest") || Type.ToString().Contains("Event"))
+                if (questOrEvent)
                 {
                     if (key.Contains("@"))
                         return key;
@@ -302,6 +304,10 @@ namespace EmoteScript
                     break;
             }
 
+            // these could possibly be coalesced into just using @ for everything,
+            // but currently keeping the @suffix format clear that only certain branching emotes use it (quests, events)
+            var div = questOrEvent ? "@" : "_";
+
             if (IsRangeType)
             {
                 var minRange = Min ?? Min64 ?? MinFloat;
@@ -316,17 +322,18 @@ namespace EmoteScript
                         rangeStr = $"{maxRange}";
                 }
 
-                var div = Message != null ? "@" : "_";
-                
                 if (!string.IsNullOrEmpty(rangeStr))
+                {
                     key += $"{div}{rangeStr}";
+                    div = "_";      // key multiple InqQuestSolves: someQuest, 300 as someQuest@300_2, instead of someQuest@300@2
+                }
             }
 
             var newKey = key;
             var i = 2;
             while (GlobalKeys.Contains(newKey))
             {
-                newKey = key + $"_{i++}";
+                newKey = key + $"{div}{i++}";
             }
             GlobalKeys.Add(newKey);
 
