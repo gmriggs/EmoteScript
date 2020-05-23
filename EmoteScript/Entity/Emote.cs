@@ -223,7 +223,7 @@ namespace EmoteScript
 
             if (key != null)
             {
-                if (Type.ToString().Contains("Quest"))
+                if (Type.ToString().Contains("Quest") || Type.ToString().Contains("Event"))
                 {
                     if (key.Contains("@"))
                         return key;
