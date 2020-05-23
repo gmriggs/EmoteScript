@@ -603,7 +603,7 @@ namespace EmoteScript
             { EmoteType.MoveToPos, new List<EmoteField>() { EmoteField.Position } },
             { EmoteType.PetCastSpellOnOwner, new List<EmoteField>() { EmoteField.SpellId } },
             { EmoteType.PhysScript, new List<EmoteField>() { EmoteField.PScript } },
-            { EmoteType.PopUp, new List<EmoteField>() { EmoteField.TestString } },
+            { EmoteType.PopUp, new List<EmoteField>() { EmoteField.Message } },
             { EmoteType.RemoveContract, new List<EmoteField>() { EmoteField.ContractId } },
             { EmoteType.Say, new List<EmoteField>() { EmoteField.Message } },
             { EmoteType.SetBoolStat, new List<EmoteField>() { EmoteField.PropertyBoolStat, EmoteField.Amount } },
