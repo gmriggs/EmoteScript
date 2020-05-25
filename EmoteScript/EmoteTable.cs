@@ -15,6 +15,17 @@ namespace EmoteScript
             EmoteSets = new List<EmoteSet>();
         }
 
+        public EmoteTable(JSON.EmoteTable emoteTable)
+        {
+            EmoteSets = new List<EmoteSet>();
+
+            foreach (var categorySets in emoteTable.emoteTable)
+            {
+                foreach (var emoteSet in categorySets.value)
+                    EmoteSets.Add(new EmoteSet(emoteSet));
+            }
+        }
+
         public void Add(EmoteSet emoteSet)
         {
             EmoteSets.Add(emoteSet);

@@ -7,6 +7,10 @@ namespace EmoteScript.JSON
         public int key { get; set; }
         public List<EmoteSet> value { get; set; }
 
+        public EmoteSet_KeyValue()
+        {
+        }
+
         public EmoteSet_KeyValue(EmoteScript.EmoteSet emoteSet)
         {
             key = (int)emoteSet.Category;

@@ -15,6 +15,10 @@ namespace EmoteScript.JSON
         public float? minHealth { get; set; }
         public float? maxHealth { get; set; }
 
+        public EmoteSet()
+        {
+        }
+
         public EmoteSet(EmoteScript.EmoteSet emoteSet)
         {
             category = (uint)emoteSet.Category;

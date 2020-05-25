@@ -7,6 +7,10 @@ namespace EmoteScript.JSON
     {
         public List<EmoteSet_KeyValue> emoteTable { get; set; }
 
+        public EmoteTable()
+        {
+        }
+        
         public EmoteTable(EmoteScript.EmoteTable baseTable)
         {
             emoteTable = new List<EmoteSet_KeyValue>();

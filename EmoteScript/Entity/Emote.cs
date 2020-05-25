@@ -111,6 +111,75 @@ namespace EmoteScript
                 Branches = new List<EmoteSet>();
         }
 
+        public Emote(JSON.Emote emote)
+        {
+            Type = (EmoteType)emote.type;
+            Delay = emote.delay;
+            Extent = emote.extent;
+            Amount = (int?)emote.amount;
+            Motion = (MotionCommand?)emote.motion;
+            Message = emote.msg;
+            Amount64 = emote.amount64;
+            HeroXP64 = (long?)emote.heroxp64;
+
+            if (emote.cprof != null)
+            {
+                WeenieClassId = emote.cprof.wcid;
+                Palette = (int?)emote.cprof.palette;
+                Shade = (float?)emote.cprof.shade;
+                DestinationType = (DestinationType?)emote.cprof.destination;
+                StackSize = emote.cprof.stack_size;
+
+                if (emote.cprof.try_to_bond != null)
+                    TryToBond = emote.cprof.try_to_bond != 0;
+            }
+
+            Min64 = emote.min64;
+            Max64 = emote.max64;
+            Percent = emote.percent;
+
+            if (emote.display != null)
+                Display = emote.display != 0;
+
+            Max = (int?)emote.max;
+            Min = (int?)emote.min;
+            MaxFloat = emote.fmax;
+            MinFloat = emote.fmin;
+            Stat = (int?)emote.stat;
+            PScript = (PlayScript?)emote.pscript;
+            Sound = (Sound?)emote.sound;
+
+            if (emote.mPosition != null)
+            {
+                ObjCellId = emote.mPosition.objcell_id;
+                
+                if (emote.mPosition.frame != null)
+                    CopyFrame(emote.mPosition.frame);
+            }
+
+            // ?
+            if (emote.frame != null)
+                CopyFrame(emote.frame);
+
+            SpellId = (SpellId?)emote.spellid;
+            TestString = emote.teststring;
+            WealthRating = (int?)emote.wealth_rating;
+            TreasureClass = (int?)emote.treasure_class;
+            TreasureType = (int?)emote.treasure_type;
+        }
+
+        public void CopyFrame(JSON.Frame frame)
+        {
+            OriginX = frame.origin.X;
+            OriginY = frame.origin.Y;
+            OriginZ = frame.origin.Z;
+
+            AnglesW = frame.angles.W;
+            AnglesX = frame.angles.X;
+            AnglesY = frame.angles.Y;
+            AnglesZ = frame.angles.Z;
+        }
+
         public void AddBranch(EmoteSet emoteSet)
         {
             Branches.Add(emoteSet);

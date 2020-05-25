@@ -11,6 +11,10 @@ namespace EmoteScript.JSON
         public int? stack_size { get; set; }
         public byte? try_to_bond { get; set; }
 
+        public CreateItem()
+        {
+        }
+
         public CreateItem(EmoteScript.Emote emote)
         {
             wcid = emote.WeenieClassId;

@@ -7,6 +7,10 @@ namespace EmoteScript.JSON
         public Vector3 origin { get; set; }
         public Quaternion angles { get; set; }
 
+        public Frame()
+        {
+        }
+
         public Frame(EmoteScript.Emote emote)
         {
             origin = new Vector3(emote.OriginX ?? 0, emote.OriginY ?? 0, emote.OriginZ ?? 0);

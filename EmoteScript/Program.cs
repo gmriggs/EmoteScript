@@ -144,10 +144,10 @@ namespace EmoteScript
 
             var json = File.ReadAllText(jsonFile.FullName);
 
-            var emoteTable = new EmoteTable();
+            var jsonEmoteTable = JsonConvert.DeserializeObject<JSON.EmoteTable>(json, settings);
 
-            emoteTable.EmoteSets = JsonConvert.DeserializeObject<List<EmoteSet>>(json, settings);
-
+            var emoteTable = new EmoteTable(jsonEmoteTable);
+            
             emoteTable.SetValidBranches();
 
             emoteTable.BuildLinks();

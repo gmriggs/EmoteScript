@@ -40,6 +40,22 @@ namespace EmoteScript
                 AddLink(parent);
         }
 
+        public EmoteSet(JSON.EmoteSet emoteSet)
+        {
+            Category = (EmoteCategory)emoteSet.category;
+            Probability = emoteSet.probability;
+            VendorType = (VendorType?)emoteSet.vendorType;
+            Quest = emoteSet.quest;
+            WeenieClassId = emoteSet.classId;
+            Style = (MotionStance?)emoteSet.style;
+            Substyle = (MotionCommand?)emoteSet.subStyle;
+            MinHealth = emoteSet.minHealth;
+            MaxHealth = emoteSet.maxHealth;
+
+            foreach (var emote in emoteSet.emotes)
+                Emotes.Add(new Emote(emote));
+        }
+
         public void AddLink(Emote link)
         {
             if (Links == null)

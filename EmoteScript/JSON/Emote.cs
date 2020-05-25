@@ -32,6 +32,10 @@ namespace EmoteScript.JSON
         public uint? treasure_class { get; set; }
         public uint? treasure_type { get; set; }
 
+        public Emote()
+        {
+        }
+
         public Emote(EmoteScript.Emote emote)
         {
             type = (uint)emote.Type;
