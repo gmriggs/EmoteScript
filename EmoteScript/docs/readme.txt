@@ -22,3 +22,5 @@ For this emote table, when the player uses the object by double-clicking it, the
 If the player has already started the quest, the NPC will tell the player "You have already started the TestQuest."
 
 If the player has not already started the TestQuest, it will be added to their Quest Registry, and marked as 0 completions. The NPC will then tell the player "You have now started the TestQuest."
+
+If you use Notepad++ and wish to have colors for the markup EmoteScript uses, you can use EmoteScript.xml in the EmoteScript\resources\ folder.  View the readme.txt in that directory on how to use.
