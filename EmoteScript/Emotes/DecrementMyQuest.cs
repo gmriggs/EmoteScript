@@ -11,11 +11,12 @@ namespace EmoteScript.Emotes
 
         }
         
-        public DecrementMyQuest(string quest)
+        public DecrementMyQuest(string quest, int? amount = 1)
 
             : base(EmoteType.DecrementMyQuest)
         {
             Message = quest;
+            Amount = amount;
         }
     }
 }
