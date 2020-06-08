@@ -256,6 +256,9 @@ namespace EmoteScript
             var key = token.Substring(0, idx).Trim();
             var val = token.Substring(idx + 1).Trim();
 
+            if (!IsField(key))
+                return new KeyValuePair<string, string>(string.Empty, token);
+
             return new KeyValuePair<string, string>(key, val);
         }
     }
