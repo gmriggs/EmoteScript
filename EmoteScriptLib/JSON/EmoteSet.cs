@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace EmoteScript.JSON
+namespace EmoteScriptLib.JSON
 {
     public class EmoteSet
     {
@@ -19,7 +19,7 @@ namespace EmoteScript.JSON
         {
         }
 
-        public EmoteSet(EmoteScript.EmoteSet emoteSet)
+        public EmoteSet(EmoteScriptLib.EmoteSet emoteSet)
         {
             category = (uint)emoteSet.Category;
             probability = emoteSet.Probability ?? 1.0f;

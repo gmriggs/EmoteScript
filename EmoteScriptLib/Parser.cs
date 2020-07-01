@@ -6,11 +6,11 @@ using System.Linq;
 using System.Numerics;
 using System.Text.RegularExpressions;
 
-using EmoteScript.Entity;
-using EmoteScript.Entity.Enum;
-using EmoteScript.StringMap;
+using EmoteScriptLib.Entity;
+using EmoteScriptLib.Entity.Enum;
+using EmoteScriptLib.StringMap;
 
-namespace EmoteScript
+namespace EmoteScriptLib
 {
     public static class Parser
     {

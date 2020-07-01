@@ -1,6 +1,6 @@
 using System.Linq;
 
-namespace EmoteScript.Entity.Enum
+namespace EmoteScriptLib.Entity.Enum
 {
     /// <summary>
     /// note: even though these are unnumbered, order is very important.  values of "none" or commented

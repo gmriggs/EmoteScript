@@ -1,6 +1,6 @@
 using System.ComponentModel;
 
-namespace EmoteScript.Entity.Enum
+namespace EmoteScriptLib.Entity.Enum
 {
     public enum PropertyBool : ushort
     {

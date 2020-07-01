@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-using EmoteScript.Entity.Enum;
+using EmoteScriptLib.Entity.Enum;
 
-namespace EmoteScript
+namespace EmoteScriptLib
 {
     public class Line
     {

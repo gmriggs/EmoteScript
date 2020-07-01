@@ -5,9 +5,9 @@ using System.Globalization;
 using System.Reflection;
 using System.Text.RegularExpressions;
 
-using EmoteScript.Entity.Enum;
+using EmoteScriptLib.Entity.Enum;
 
-namespace EmoteScript.SQL
+namespace EmoteScriptLib.SQL
 {
     public class SQLReader
     {

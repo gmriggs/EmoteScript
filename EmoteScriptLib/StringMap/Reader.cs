@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 
-namespace EmoteScript.StringMap
+namespace EmoteScriptLib.StringMap
 {
     public static class Reader
     {

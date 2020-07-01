@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 
-using EmoteScript.Entity.Enum;
-using EmoteScript.StringMap;
+using EmoteScriptLib.Entity.Enum;
+using EmoteScriptLib.StringMap;
 
 using Newtonsoft.Json;
 
-namespace EmoteScript
+namespace EmoteScriptLib
 {
     public class EmoteSet
     {

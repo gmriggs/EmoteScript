@@ -6,8 +6,7 @@ using System.Text.RegularExpressions;
 
 using Newtonsoft.Json;
 
-using EmoteScript.JSON;
-using EmoteScript.SQL;
+using EmoteScriptLib;
 
 namespace EmoteScript
 {
@@ -108,7 +107,7 @@ namespace EmoteScript
 
             emoteTable.NormalRange();
             
-            var jsonTable = new JSON.EmoteTable(emoteTable);
+            var jsonTable = new EmoteScriptLib.JSON.EmoteTable(emoteTable);
             
             // check if file already exists?
             
@@ -120,7 +119,7 @@ namespace EmoteScript
         {
             var sqlLines = File.ReadAllLines(sqlFile.FullName);
 
-            var sqlReader = new SQLReader();
+            var sqlReader = new EmoteScriptLib.SQL.SQLReader();
 
             var emoteTable = sqlReader.ReadEmoteTable(sqlLines);
 
@@ -140,11 +139,11 @@ namespace EmoteScript
         public static void json2es(FileInfo jsonFile)
         {
             var settings = new JsonSerializerSettings();
-            settings.ContractResolver = new LowercaseContractResolver();
+            settings.ContractResolver = new EmoteScriptLib.JSON.LowercaseContractResolver();
 
             var json = File.ReadAllText(jsonFile.FullName);
 
-            var jsonEmoteTable = JsonConvert.DeserializeObject<JSON.EmoteTable>(json, settings);
+            var jsonEmoteTable = JsonConvert.DeserializeObject<EmoteScriptLib.JSON.EmoteTable>(json, settings);
 
             var emoteTable = new EmoteTable(jsonEmoteTable);
             
@@ -186,7 +185,7 @@ namespace EmoteScript
         {
             emoteTable.NormalRange();
             
-            return SQLWriter.GetSQL(emoteTable);
+            return EmoteScriptLib.SQL.SQLWriter.GetSQL(emoteTable);
         }
 
         public static void ShowSQL(EmoteTable emoteTable)
@@ -197,7 +196,7 @@ namespace EmoteScript
                 Console.WriteLine(sqlLines);
         }
 
-        public static void OutputJSON(JSON.EmoteTable emoteTable, FileInfo jsonFile)
+        public static void OutputJSON(EmoteScriptLib.JSON.EmoteTable emoteTable, FileInfo jsonFile)
         {
             var json = BuildJSON(emoteTable);
 
@@ -206,7 +205,7 @@ namespace EmoteScript
             Console.WriteLine($"Compiled {jsonFile.FullName}");
         }
 
-        public static string BuildJSON(JSON.EmoteTable emoteTable)
+        public static string BuildJSON(EmoteScriptLib.JSON.EmoteTable emoteTable)
         {
             var settings = new JsonSerializerSettings();
             settings.NullValueHandling = NullValueHandling.Ignore;
@@ -218,7 +217,7 @@ namespace EmoteScript
 
         public static void ShowJSON(EmoteTable emoteTable)
         {
-            var jsonTable = new JSON.EmoteTable(emoteTable);
+            var jsonTable = new EmoteScriptLib.JSON.EmoteTable(emoteTable);
             
             var json = BuildJSON(jsonTable);
             

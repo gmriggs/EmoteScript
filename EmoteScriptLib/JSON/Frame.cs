@@ -1,6 +1,6 @@
 ﻿using System.Numerics;
 
-namespace EmoteScript.JSON
+namespace EmoteScriptLib.JSON
 {
     public class Frame
     {
@@ -11,7 +11,7 @@ namespace EmoteScript.JSON
         {
         }
 
-        public Frame(EmoteScript.Emote emote)
+        public Frame(EmoteScriptLib.Emote emote)
         {
             origin = new Vector3(emote.OriginX ?? 0, emote.OriginY ?? 0, emote.OriginZ ?? 0);
 

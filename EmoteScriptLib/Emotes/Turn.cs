@@ -1,8 +1,8 @@
 ﻿using System.Numerics;
 
-using EmoteScript.Entity.Enum;
+using EmoteScriptLib.Entity.Enum;
 
-namespace EmoteScript.Emotes
+namespace EmoteScriptLib.Emotes
 {
     public class Turn : Emote
     {

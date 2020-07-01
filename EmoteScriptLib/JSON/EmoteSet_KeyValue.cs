@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace EmoteScript.JSON
+namespace EmoteScriptLib.JSON
 {
     public class EmoteSet_KeyValue
     {
@@ -11,7 +11,7 @@ namespace EmoteScript.JSON
         {
         }
 
-        public EmoteSet_KeyValue(EmoteScript.EmoteSet emoteSet)
+        public EmoteSet_KeyValue(EmoteScriptLib.EmoteSet emoteSet)
         {
             key = (int)emoteSet.Category;
             value = new List<EmoteSet>() { new EmoteSet(emoteSet) };

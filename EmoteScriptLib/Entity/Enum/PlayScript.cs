@@ -1,4 +1,4 @@
-﻿namespace EmoteScript.Entity.Enum
+﻿namespace EmoteScriptLib.Entity.Enum
 {
     public enum PlayScript : uint
     {

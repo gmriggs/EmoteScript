@@ -1,4 +1,4 @@
-﻿namespace EmoteScript.JSON
+﻿namespace EmoteScriptLib.JSON
 {
     public class Position
     {
@@ -9,7 +9,7 @@
         {
         }
 
-        public Position(EmoteScript.Emote emote)
+        public Position(EmoteScriptLib.Emote emote)
         {
             objcell_id = emote.ObjCellId ?? 0;
 

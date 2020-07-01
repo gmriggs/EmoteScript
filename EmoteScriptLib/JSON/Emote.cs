@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EmoteScript.JSON
+namespace EmoteScriptLib.JSON
 {
     public class Emote
     {
@@ -36,7 +36,7 @@ namespace EmoteScript.JSON
         {
         }
 
-        public Emote(EmoteScript.Emote emote)
+        public Emote(EmoteScriptLib.Emote emote)
         {
             type = (uint)emote.Type;
             delay = emote.Delay ?? 0.0f;

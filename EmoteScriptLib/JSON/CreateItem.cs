@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EmoteScript.JSON
+namespace EmoteScriptLib.JSON
 {
     public class CreateItem
     {
@@ -15,7 +15,7 @@ namespace EmoteScript.JSON
         {
         }
 
-        public CreateItem(EmoteScript.Emote emote)
+        public CreateItem(EmoteScriptLib.Emote emote)
         {
             wcid = emote.WeenieClassId;
             palette = (uint?)emote.Palette;

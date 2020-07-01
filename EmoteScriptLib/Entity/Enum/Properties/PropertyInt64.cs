@@ -1,6 +1,6 @@
 using System.ComponentModel;
 
-namespace EmoteScript.Entity.Enum
+namespace EmoteScriptLib.Entity.Enum
 {
     // properties marked as ServerOnly are properties we never saw in PCAPs, from here:
     // http://ac.yotesfan.com/ace_object/not_used_enums.php

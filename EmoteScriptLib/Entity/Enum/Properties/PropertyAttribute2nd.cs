@@ -1,7 +1,7 @@
 using System.ComponentModel;
 using System.Linq;
 
-namespace EmoteScript.Entity.Enum
+namespace EmoteScriptLib.Entity.Enum
 {
     public enum PropertyAttribute2nd : ushort
     {

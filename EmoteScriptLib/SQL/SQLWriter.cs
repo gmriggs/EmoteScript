@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using EmoteScript.Entity;
-using EmoteScript.Entity.Enum;
+using EmoteScriptLib.Entity;
+using EmoteScriptLib.Entity.Enum;
 
-using EmoteScript.StringMap;
+using EmoteScriptLib.StringMap;
 
-namespace EmoteScript.SQL
+namespace EmoteScriptLib.SQL
 {
     public static class SQLWriter
     {

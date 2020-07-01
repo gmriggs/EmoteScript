@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EmoteScript.Entity.Enum
+namespace EmoteScriptLib.Entity.Enum
 {
     [Flags]
     public enum EmoteField: ulong

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Numerics;
 
-using EmoteScript.Entity.Enum;
+using EmoteScriptLib.Entity.Enum;
 
-namespace EmoteScript
+namespace EmoteScriptLib
 {
     public class Emote_Line : Line
     {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace EmoteScript.JSON
+namespace EmoteScriptLib.JSON
 {
     public class EmoteTable
     {
@@ -11,7 +11,7 @@ namespace EmoteScript.JSON
         {
         }
         
-        public EmoteTable(EmoteScript.EmoteTable baseTable)
+        public EmoteTable(EmoteScriptLib.EmoteTable baseTable)
         {
             emoteTable = new List<EmoteSet_KeyValue>();
 

@@ -2,7 +2,7 @@
 
 using Newtonsoft.Json.Serialization;
 
-namespace EmoteScript.JSON
+namespace EmoteScriptLib.JSON
 {
     public class LowercaseContractResolver : DefaultContractResolver
     {

@@ -1,10 +1,11 @@
 ﻿using System.Numerics;
 
-using EmoteScript.Entity.Enum;
+using EmoteScriptLib;
+using EmoteScriptLib.Entity.Enum;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace EmoteScript
+namespace EmoteScript.Tests
 {
     [TestClass]
     public class Test

@@ -1,4 +1,4 @@
-﻿namespace EmoteScript
+﻿namespace EmoteScriptLib
 {
     public class RangeFloat
     {

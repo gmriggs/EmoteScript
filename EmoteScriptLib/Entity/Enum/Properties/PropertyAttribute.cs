@@ -1,4 +1,4 @@
-namespace EmoteScript.Entity.Enum
+namespace EmoteScriptLib.Entity.Enum
 {
     // The order of quickness and coordination corresponds to the client
     public enum PropertyAttribute : ushort

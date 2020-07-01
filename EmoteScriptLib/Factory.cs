@@ -1,9 +1,9 @@
 ﻿using System;
 
-using EmoteScript.Emotes;
-using EmoteScript.Entity.Enum;
+using EmoteScriptLib.Emotes;
+using EmoteScriptLib.Entity.Enum;
 
-namespace EmoteScript
+namespace EmoteScriptLib
 {
     public static class Factory
     {

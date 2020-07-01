@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace EmoteScript
+namespace EmoteScriptLib
 {
     public class EmoteTable
     {

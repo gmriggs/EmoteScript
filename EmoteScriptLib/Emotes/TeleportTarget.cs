@@ -1,7 +1,7 @@
-﻿using EmoteScript.Entity;
-using EmoteScript.Entity.Enum;
+﻿using EmoteScriptLib.Entity;
+using EmoteScriptLib.Entity.Enum;
 
-namespace EmoteScript.Emotes
+namespace EmoteScriptLib.Emotes
 {
     public class TeleportTarget : Emote
     {

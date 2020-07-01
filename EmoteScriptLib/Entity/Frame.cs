@@ -1,6 +1,6 @@
 ﻿using System.Numerics;
 
-namespace EmoteScript.Entity
+namespace EmoteScriptLib.Entity
 {
     public class Frame
     {

@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 
-using EmoteScript.Entity;
-using EmoteScript.Entity.Enum;
-using EmoteScript.StringMap;
+using EmoteScriptLib.Entity;
+using EmoteScriptLib.Entity.Enum;
+using EmoteScriptLib.StringMap;
 
 using Newtonsoft.Json;
 
-namespace EmoteScript
+namespace EmoteScriptLib
 {
     public class Emote
     {
