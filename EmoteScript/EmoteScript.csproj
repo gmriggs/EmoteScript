@@ -10,15 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="StringMap\SpellName.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="StringMap\WeenieClassName.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="StringMap\WeenieName.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <ProjectReference Include="..\EmoteScriptLib\EmoteScriptLib.csproj" />
   </ItemGroup>
 
 </Project>
