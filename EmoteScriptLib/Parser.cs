@@ -18,37 +18,6 @@ namespace EmoteScriptLib
         
         public static bool Debug = true;
         
-        public static List<Line> ParseLines(FileInfo file)
-        {
-            if (!file.Exists)
-            {
-                Console.WriteLine($"{file.FullName} not found");
-                return null;
-            }
-
-            var _lines = File.ReadAllLines(file.FullName);
-
-            var lines = new List<Line>();
-            foreach (var _line in _lines)
-            {
-                //if (Debug)
-                    //Console.WriteLine(_line);
-                
-                var line = Line.Parse(_line);
-                lines.Add(line);
-
-                if (Debug)
-                {
-                    if (line is Emote_Line emote)
-                        Console.WriteLine(emote.Emote);
-                    else if (line is EmoteSet_Line emoteSet)
-                        Console.WriteLine(emoteSet.EmoteSet);
-                }
-            }
-                    
-            return lines;
-        }
-
         public static List<EmoteSet> ParseFile(FileInfo file)
         {
             if (!file.Exists)
@@ -59,6 +28,11 @@ namespace EmoteScriptLib
 
             var lines = File.ReadAllLines(file.FullName);
 
+            return ParseLines(lines);
+        }
+
+        public static List<EmoteSet> ParseLines(string[] lines)
+        {
             var emoteSets = new List<EmoteSet>();
 
             var stack = new Stack<EmoteSetIndent>();
@@ -66,7 +40,7 @@ namespace EmoteScriptLib
             for (var i = 0; i < lines.Length; i++)
             {
                 //if (Debug)
-                    //Console.WriteLine(lines[i]);
+                //Console.WriteLine(lines[i]);
 
                 var pre = Line.Preprocess(lines[i]);
                 var line = Line.Parse(lines[i]);
@@ -140,6 +114,37 @@ namespace EmoteScriptLib
             }
 
             return emoteSets;
+        }
+
+        public static List<Line> ParseLines(FileInfo file)
+        {
+            if (!file.Exists)
+            {
+                Console.WriteLine($"{file.FullName} not found");
+                return null;
+            }
+
+            var _lines = File.ReadAllLines(file.FullName);
+
+            var lines = new List<Line>();
+            foreach (var _line in _lines)
+            {
+                //if (Debug)
+                //Console.WriteLine(_line);
+
+                var line = Line.Parse(_line);
+                lines.Add(line);
+
+                if (Debug)
+                {
+                    if (line is Emote_Line emote)
+                        Console.WriteLine(emote.Emote);
+                    else if (line is EmoteSet_Line emoteSet)
+                        Console.WriteLine(emoteSet.EmoteSet);
+                }
+            }
+
+            return lines;
         }
 
         public static int GetIndentLevel(string line)
