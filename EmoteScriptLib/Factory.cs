@@ -143,6 +143,12 @@ namespace EmoteScriptLib
                 case EmoteType.InqMyQuest:
                     return new InqMyQuest();
 
+                case EmoteType.InqMyQuestBitsOff:
+                    return new InqMyQuestBitsOff();
+                
+                case EmoteType.InqMyQuestBitsOn:
+                    return new InqMyQuestBitsOn();
+
                 case EmoteType.InqMyQuestSolves:
                     return new InqMyQuestSolves();
 
@@ -157,6 +163,12 @@ namespace EmoteScriptLib
 
                 case EmoteType.InqQuest:
                     return new InqQuest();
+
+                case EmoteType.InqQuestBitsOff:
+                    return new InqQuestBitsOff();
+
+                case EmoteType.InqQuestBitsOn:
+                    return new InqQuestBitsOn();
 
                 case EmoteType.InqQuestSolves:
                     return new InqQuestSolves();

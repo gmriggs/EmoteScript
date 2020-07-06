@@ -262,8 +262,20 @@ namespace EmoteScriptLib
         public static int? TryParseInt(string intStr)
         {
             intStr = intStr.Replace(",", "");
-            
-            if (!int.TryParse(intStr, out var intVal))
+
+            var intVal = 0;
+
+            if (intStr.StartsWith("0x"))
+            {
+                if (!int.TryParse(intStr.Substring(2), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out intVal))
+                {
+                    Console.WriteLine($"TryParseInt() - couldn't parse int from \"{intStr}\"");
+                    return null;
+                }
+                return intVal;
+            }
+
+            if (!int.TryParse(intStr, out intVal))
             {
                 Console.WriteLine($"TryParseInt() - couldn't convert int from \"{intStr}\"");
                 return null;
