@@ -260,9 +260,21 @@ namespace EmoteScriptLib
                 case EmoteType.SetIntStat:
                     return new SetIntStat();
 
+                case EmoteType.SetMyQuestBitsOff:
+                    return new SetMyQuestBitsOff();
+
+                case EmoteType.SetMyQuestBitsOn:
+                    return new SetMyQuestBitsOn();
+                
                 case EmoteType.SetMyQuestCompletions:
                     return new SetMyQuestCompletions();
 
+                case EmoteType.SetQuestBitsOff:
+                    return new SetQuestBitsOff();
+
+                case EmoteType.SetQuestBitsOn:
+                    return new SetQuestBitsOn();
+                
                 case EmoteType.SetQuestCompletions:
                     return new SetQuestCompletions();
 
