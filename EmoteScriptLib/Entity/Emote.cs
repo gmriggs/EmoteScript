@@ -855,7 +855,7 @@ namespace EmoteScriptLib
                     SpellNames = Reader.GetIDToNames("SpellName.txt");
 
                 if (SpellNames.TryGetValue((uint)SpellId, out var spellName))
-                    return $"{SpellId} - {spellName}";
+                    return $"{(int)SpellId} - {spellName}";
 
                 return SpellId.ToString();
             }

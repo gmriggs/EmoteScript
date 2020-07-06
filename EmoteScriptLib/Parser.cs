@@ -325,9 +325,9 @@ namespace EmoteScriptLib
             if (SpellNames == null)
                 BuildSpellNames();
 
-            var number = TryParseNumbers(spellIdStr, out _);
+            var number = TryParseNumbers(spellIdStr, out _, false);
             if (number != null)
-                spellIdStr = spellIdStr.Replace(",", "");
+                spellIdStr = number.ToString();
             
             if (!Enum.TryParse(spellIdStr, true, out SpellId spellId))
             {
@@ -589,11 +589,11 @@ namespace EmoteScriptLib
             return letters.Trim();
         }
 
-        public static int? TryParseNumbers(string line, out string next)
+        public static int? TryParseNumbers(string line, out string next, bool tryRange = true)
         {
             next = line;
 
-            var match = Regex.Match(line, @"^([0-9, -]+)");
+            var match = tryRange ? Regex.Match(line, @"^([0-9, -]+)") : Regex.Match(line, @"^([0-9,]+)");
             if (!match.Success)
                 return null;
 
