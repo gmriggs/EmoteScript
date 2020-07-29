@@ -9,11 +9,11 @@ namespace EmoteScriptLib.JSON
         public float? probability { get; set; }
         public uint? vendorType { get; set; }
         public string quest { get; set; }
-        public uint? classId { get; set; }
+        public uint? classID { get; set; }
         public uint? style { get; set; }
-        public uint? subStyle { get; set; }
-        public float? minHealth { get; set; }
-        public float? maxHealth { get; set; }
+        public uint? substyle { get; set; }
+        public float? minhealth { get; set; }
+        public float? maxhealth { get; set; }
 
         public EmoteSet()
         {
@@ -25,11 +25,11 @@ namespace EmoteScriptLib.JSON
             probability = emoteSet.Probability ?? 1.0f;
             vendorType = (uint?)emoteSet.VendorType;
             quest = emoteSet.Quest;
-            classId = emoteSet.WeenieClassId;
+            classID = emoteSet.WeenieClassId;
             style = (uint?)emoteSet.Style;
-            subStyle = (uint?)emoteSet.Substyle;
-            minHealth = emoteSet.MinHealth;
-            maxHealth = emoteSet.MaxHealth;
+            substyle = (uint?)emoteSet.Substyle;
+            minhealth = emoteSet.MinHealth;
+            maxhealth = emoteSet.MaxHealth;
 
             emotes = new List<Emote>();
 

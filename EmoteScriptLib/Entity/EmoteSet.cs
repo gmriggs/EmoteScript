@@ -46,11 +46,11 @@ namespace EmoteScriptLib
             Probability = emoteSet.probability;
             VendorType = (VendorType?)emoteSet.vendorType;
             Quest = emoteSet.quest;
-            WeenieClassId = emoteSet.classId;
+            WeenieClassId = emoteSet.classID;
             Style = (MotionStance?)emoteSet.style;
-            Substyle = (MotionCommand?)emoteSet.subStyle;
-            MinHealth = emoteSet.minHealth;
-            MaxHealth = emoteSet.maxHealth;
+            Substyle = (MotionCommand?)emoteSet.substyle;
+            MinHealth = emoteSet.minhealth;
+            MaxHealth = emoteSet.maxhealth;
 
             foreach (var emote in emoteSet.emotes)
                 Emotes.Add(new Emote(emote));
