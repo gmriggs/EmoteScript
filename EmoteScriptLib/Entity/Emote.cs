@@ -204,15 +204,19 @@ namespace EmoteScriptLib
 
                     return Branch.GotoSet;
 
-                case EmoteType.InqAttributeStat:
-                case EmoteType.InqBoolStat:
                 case EmoteType.InqContractsFull:
-                case EmoteType.InqFloatStat:
-                case EmoteType.InqIntStat:
-                case EmoteType.InqInt64Stat:
                 case EmoteType.InqNumCharacterTitles:
                 case EmoteType.InqOwnsItems:
                 case EmoteType.InqPackSpace:
+                case EmoteType.InqYesNo:
+
+                    return Branch.Test;
+
+                case EmoteType.InqAttributeStat:
+                case EmoteType.InqBoolStat:
+                case EmoteType.InqFloatStat:
+                case EmoteType.InqIntStat:
+                case EmoteType.InqInt64Stat:
                 case EmoteType.InqRawAttributeStat:
                 case EmoteType.InqRawSecondaryAttributeStat:
                 case EmoteType.InqRawSkillStat:
@@ -221,9 +225,8 @@ namespace EmoteScriptLib
                 case EmoteType.InqSkillStat:
                 case EmoteType.InqSkillTrained:
                 case EmoteType.InqStringStat:
-                case EmoteType.InqYesNo:
 
-                    return Branch.Test;
+                    return Branch.TestQuality;
 
                 case EmoteType.InqQuest:
                 case EmoteType.InqQuestBitsOff:

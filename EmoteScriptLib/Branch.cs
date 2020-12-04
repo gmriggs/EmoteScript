@@ -17,6 +17,13 @@ namespace EmoteScriptLib
             EmoteCategory.TestFailure
         };
 
+        public static List<EmoteCategory> TestQuality { get; } = new List<EmoteCategory>()
+        {
+            EmoteCategory.TestSuccess,
+            EmoteCategory.TestFailure,
+            EmoteCategory.TestNoQuality
+        };
+
         public static List<EmoteCategory> Quest { get; } = new List<EmoteCategory>()
         {
             EmoteCategory.QuestSuccess,
