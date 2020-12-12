@@ -810,8 +810,16 @@ namespace EmoteScriptLib
                 case EmoteType.Turn:
                     var rotation = new Quaternion(AnglesX ?? 0, AnglesY ?? 0, AnglesZ ?? 0, AnglesW ?? 1);
                     var heading = Position.get_heading(rotation);
-                    var heading_dir = Position.get_heading_dir(heading);
-                    return $"Heading: {heading} ({heading_dir})";
+                    var headingStr = heading.ToString();
+                    foreach (var kvp in Parser.Dirs)
+                    {
+                        if (heading == kvp.Value)
+                        {
+                            headingStr = kvp.Key;
+                            break;
+                        }
+                    }
+                    return $"{headingStr}";
             }
 
             return Message;
