@@ -732,6 +732,7 @@ namespace EmoteScriptLib
 
                     return $"{(PropertyInt64)Stat}, {amount}";
 
+                case EmoteType.InqMyQuestSolves:
                 case EmoteType.InqQuestSolves:
                     var numSolves = Min != null ? $", {Min}" : "";
                     if (Max != null && Min != Max)
