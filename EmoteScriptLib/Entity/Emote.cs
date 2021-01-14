@@ -968,6 +968,22 @@ namespace EmoteScriptLib
 
             if (Max64 != null && Min64 == null)
                 Min64 = long.MinValue;
+
+            switch (Type)
+            {
+                case EmoteType.DecrementIntStat:
+                case EmoteType.DecrementMyQuest:
+                case EmoteType.DecrementQuest:
+
+                case EmoteType.IncrementIntStat:
+                case EmoteType.IncrementMyQuest:
+                case EmoteType.IncrementQuest:
+
+                    if (Amount == null)
+                        Amount = 1;
+
+                    break;
+            }
         }
     }
 }
