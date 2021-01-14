@@ -644,20 +644,30 @@ namespace EmoteScriptLib
 
                 case EmoteType.AwardLevelProportionalXP:
                     var suffix = "";
-                    if ((Max64 ?? 0) != 0)
-                        suffix += $", {Max64:N0}";
-                    if ((Min64 ?? 0) != 0 && Min64 != Max64)
-                        suffix = $", {Min64:N0} - {Max64:N0}";
+                    var min64 = Min64 ?? long.MinValue;
+                    var max64 = Max64 ?? long.MaxValue;
+                    if (min64 != long.MinValue || max64 != long.MaxValue)
+                    {
+                        if (min64 != long.MinValue)
+                            suffix = $", {min64:N0} - {max64:N0}";
+                        else
+                            suffix = $", {max64:N0}";
+                    }
                     if (Display ?? false)
                         suffix += $", Share";
                     return $"{Math.Round((Percent ?? 0) * 100, 2)}%{suffix}";
 
                 case EmoteType.AwardLevelProportionalSkillXP:
                     suffix = "";
-                    if ((Max ?? 0) != 0)
-                        suffix += $", {Max:N0}";
-                    if ((Min ?? 0) != 0 && Min != Max)
-                        suffix = $", {Min:N0} - {Max:N0}";
+                    var min = Min ?? int.MinValue;
+                    var max = Max ?? int.MaxValue;
+                    if (min != int.MinValue || max != int.MaxValue)
+                    {
+                        if (min != int.MinValue)
+                            suffix = $", {min:N0} - {max:N0}";
+                        else
+                            suffix = $", {max:N0}";
+                    }
                     return $"{((Skill)Stat).ToSentence()}, {Math.Round((Percent ?? 0) * 100, 2)}%{suffix}";
 
                 case EmoteType.AwardLuminance:
@@ -698,9 +708,12 @@ namespace EmoteScriptLib
                 case EmoteType.InqAttributeStat:
                 case EmoteType.InqRawAttributeStat:
 
-                    amount = $"{Min:N0}";
-                    if (Max != Min)
-                        amount += $" - {Max:N0}";
+                    min = Min ?? int.MinValue;
+                    max = Max ?? int.MaxValue;
+                    if (max != int.MaxValue)
+                        amount = $"{min:N0} - {max:N0}";
+                    else
+                        amount = $"{min:N0}";
 
                     return $"{(PropertyAttribute)Stat}, {amount}{message}";
 
@@ -710,52 +723,74 @@ namespace EmoteScriptLib
 
                 case EmoteType.InqFloatStat:
 
-                    amount = $"{MinFloat}";
-                    if (MaxFloat != MinFloat)
-                        amount += $" - {MaxFloat}";
+                    var fMin = MinFloat ?? float.MinValue;
+                    var fMax = MaxFloat ?? float.MaxValue;
+                    if (fMax != float.MaxValue)
+                        amount = $"{fMin} - {fMax}";
+                    else
+                        amount = $"{fMin}";
 
                     return $"{(PropertyFloat)Stat}, {amount}{message}";
 
                 case EmoteType.InqIntStat:
 
-                    amount = $"{Min:N0}";
-                    if (Max != Min)
-                        amount += $" - {Max:N0}";
+                    min = Min ?? int.MinValue;
+                    max = Max ?? int.MaxValue;
+                    if (max != int.MaxValue)
+                        amount = $"{min:N0} - {max:N0}";
+                    else
+                        amount = $"{min:N0}";
 
                     return $"{(PropertyInt)Stat}, {amount}{message}";
 
                 case EmoteType.InqInt64Stat:
 
-                    amount = $"{Min64:N0}";
-                    if (Max64 != Min64)
-                        amount += $" - {Max64:N0}{message}";
+                    min64 = Min64 ?? long.MinValue;
+                    max64 = Max64 ?? long.MaxValue;
+                    if (max64 != long.MaxValue)
+                        amount = $"{min64:N0} - {max64:N0}";
+                    else
+                        amount = $"{min64:N0}";
 
-                    return $"{(PropertyInt64)Stat}, {amount}";
+                    return $"{(PropertyInt64)Stat}, {amount}{message}";
 
                 case EmoteType.InqMyQuestSolves:
                 case EmoteType.InqQuestSolves:
-                    var numSolves = Min != null ? $", {Min}" : "";
-                    if (Max != null && Min != Max)
-                        numSolves += $" - {Max}";
-                    return $"{Message}{numSolves}";
+
+                    min = Min ?? int.MinValue;
+                    max = Max ?? int.MaxValue;
+
+                    var numSolves = "";
+                    if (max != int.MaxValue)
+                        numSolves = $"{min:N0} - {max:N0}";
+                    else
+                        numSolves = $"{min:N0}";
+
+                    return $"{Message}, {numSolves}";
 
                 case EmoteType.InqSecondaryAttributeStat:
                 case EmoteType.InqRawSecondaryAttributeStat:
 
-                    amount = $"{Min:N0}";
-                    if (Max != Min)
-                        amount += $" - {Max:N0}{message}";
+                    min = Min ?? int.MinValue;
+                    max = Max ?? int.MaxValue;
+                    if (max != int.MaxValue)
+                        amount = $"{min:N0} - {max:N0}";
+                    else
+                        amount = $"{min:N0}";
 
-                    return $"{(PropertyAttribute2nd)Stat}, {amount}";
+                    return $"{(PropertyAttribute2nd)Stat}, {amount}{message}";
 
                 case EmoteType.InqSkillStat:
                 case EmoteType.InqRawSkillStat:
 
-                    amount = $"{Min:N0}";
-                    if (Max != Min)
-                        amount += $" - {Max:N0}{message}";
+                    min = Min ?? int.MinValue;
+                    max = Max ?? int.MaxValue;
+                    if (max != int.MaxValue)
+                        amount = $"{min:N0} - {max:N0}";
+                    else
+                        amount = $"{min:N0}";
 
-                    return $"{((Skill)Stat).ToSentence()}, {amount}";
+                    return $"{((Skill)Stat).ToSentence()}, {amount}{message}";
 
                 case EmoteType.InqStringStat:
                     return $"{(PropertyString)Stat}, \"{TestString}\"{message}";
