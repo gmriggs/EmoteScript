@@ -497,7 +497,7 @@ namespace EmoteScriptLib
 
                         var contractId = Parser.TryParseContractId(token);
                         if (contractId != null)
-                            fieldDict.Add(EmoteField.Amount, ((int)contractId).ToString());
+                            fieldDict.Add(EmoteField.Stat, ((int)contractId).ToString());
                         break;
 
                     default:

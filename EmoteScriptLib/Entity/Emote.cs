@@ -640,6 +640,7 @@ namespace EmoteScriptLib
                     return $"{(CharacterTitle)Amount}";
 
                 case EmoteType.AddContract:
+                case EmoteType.RemoveContract:
                     return $"{(ContractId)Stat}";
 
                 case EmoteType.AwardLevelProportionalXP:
