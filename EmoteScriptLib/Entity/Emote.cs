@@ -831,6 +831,9 @@ namespace EmoteScriptLib
                         new Quaternion(AnglesX ?? 0, AnglesY ?? 0, AnglesZ ?? 0, AnglesW ?? 1));
                     return moveTo.ToString();
 
+                case EmoteType.PhysScript:
+                    return $"{PScript}";
+
                 case EmoteType.Sound:
                     return $"{(Sound)Sound}";
 
