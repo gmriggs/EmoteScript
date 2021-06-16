@@ -36,9 +36,10 @@ namespace EmoteScriptLib
             EmoteCategory.EventFailure,
         };
 
-        public static List<EmoteCategory> TestFellow { get; } = new List<EmoteCategory>()
+        public static List<EmoteCategory> TestFellowNum { get; } = new List<EmoteCategory>()
         {
-            EmoteCategory.TestSuccess,
+            EmoteCategory.NumFellowsSuccess,
+            EmoteCategory.NumFellowsFailure,
             EmoteCategory.TestNoFellow
         };
 

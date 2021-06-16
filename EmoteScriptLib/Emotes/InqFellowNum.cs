@@ -6,7 +6,7 @@ namespace EmoteScriptLib.Emotes
     {
         public InqFellowNum() : base(EmoteType.InqFellowNum)
         {
-            AddValidBranches(Branch.TestFellow);
+            AddValidBranches(Branch.TestFellowNum);
         }
     }
 }

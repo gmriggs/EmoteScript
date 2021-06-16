@@ -576,7 +576,7 @@ namespace EmoteScriptLib
             { EmoteType.InqAttributeStat, new List<EmoteField>() { EmoteField.PropertyAttributeStat, EmoteField.Range, EmoteField.Message } },
             { EmoteType.InqBoolStat, new List<EmoteField>() { EmoteField.PropertyBoolStat, EmoteField.Message } },
             { EmoteType.InqEvent, new List<EmoteField>() { EmoteField.Message } },
-            { EmoteType.InqFellowNum, new List<EmoteField>() { EmoteField.Message} },
+            { EmoteType.InqFellowNum, new List<EmoteField>() { EmoteField.Range, EmoteField.Message} },
             { EmoteType.InqFellowQuest, new List<EmoteField>() { EmoteField.Message } },
             { EmoteType.InqFloatStat, new List<EmoteField>() { EmoteField.PropertyFloatStat, EmoteField.RangeFloat, EmoteField.Message } },
             { EmoteType.InqIntStat, new List<EmoteField>() { EmoteField.PropertyIntStat, EmoteField.Range, EmoteField.Message } },
