@@ -845,6 +845,10 @@ namespace EmoteScriptLib
 
                 case EmoteType.SetMyQuestCompletions:
                 case EmoteType.SetQuestCompletions:
+                case EmoteType.SetQuestBitsOn:
+                case EmoteType.SetQuestBitsOff:
+                case EmoteType.InqQuestBitsOn:
+                case EmoteType.InqQuestBitsOff:
                     return $"{Message}, {Amount}";
 
                 case EmoteType.Turn:
