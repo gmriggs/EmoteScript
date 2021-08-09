@@ -845,11 +845,12 @@ namespace EmoteScriptLib
 
                 case EmoteType.SetMyQuestCompletions:
                 case EmoteType.SetQuestCompletions:
+                    return $"{Message}, {Amount}";
                 case EmoteType.SetQuestBitsOn:
                 case EmoteType.SetQuestBitsOff:
                 case EmoteType.InqQuestBitsOn:
                 case EmoteType.InqQuestBitsOff:
-                    return $"{Message}, {Amount}";
+                    return $"{Message}, 0x{Amount:X}";
 
                 case EmoteType.Turn:
                     var rotation = new Quaternion(AnglesX ?? 0, AnglesY ?? 0, AnglesZ ?? 0, AnglesW ?? 1);
