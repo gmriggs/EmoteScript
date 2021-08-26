@@ -196,6 +196,7 @@ namespace EmoteScriptLib
             { EmoteCategory.EventSuccess, new List<EmoteSetField>() { EmoteSetField.Quest } },
             { EmoteCategory.Give, new List<EmoteSetField>() { EmoteSetField.WeenieClassId } },
             { EmoteCategory.GotoSet, new List<EmoteSetField>() { EmoteSetField.Quest } },
+            { EmoteCategory.HearChat, new List<EmoteSetField>() { EmoteSetField.Quest } },
             { EmoteCategory.NumCharacterTitlesFailure, new List<EmoteSetField>() { EmoteSetField.Quest } },
             { EmoteCategory.NumCharacterTitlesSuccess, new List<EmoteSetField>() { EmoteSetField.Quest } },
             { EmoteCategory.NumFellowsFailure, new List<EmoteSetField>() { EmoteSetField.Quest } },
