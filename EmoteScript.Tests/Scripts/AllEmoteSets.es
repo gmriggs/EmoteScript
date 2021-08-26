@@ -18,5 +18,7 @@ TestNoFellow: TestFellow
 TestNoQuality: TestInq
 TestSuccess: TestInq
 ReceiveLocalSignal: TestSignal
+ReceiveTalkDirect:
+ReceiveTalkDirect: TestMessage
 Refuse: 1234
 Vendor: Buy
