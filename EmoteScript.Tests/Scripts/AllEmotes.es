@@ -77,6 +77,8 @@ InqOwnsItems: 1234, StackSize: 5
 InqPackSpace
 InqPackSpace: 2
 InqQuest: TestQuest
+InqQuestBitsOn: TestQuest, 0x80
+InqQuestBitsOff: TestQuest, 0x80
 InqQuestSolves: TestQuest, 1-5
 InqRawAttributeStat: Strength, 50-100
 InqRawAttributeStat: Strength, 50
@@ -129,6 +131,8 @@ SetInt64Stat: TotalExperience = 500,000
 SetIntStat: NumDeaths, 5
 SetMyQuestCompletions: TestQuest, 5
 SetQuestCompletions: TestQuest, 5
+SetQuestBitsOn: TestQuest, 0x80
+SetQuestBitsOff: TestQuest, 0x80
 SetSanctuaryPosition: 0x12340001 [1 2 3] 1 0 0 0
 Sound: Sound.Wound1
 Sound: Wound1
