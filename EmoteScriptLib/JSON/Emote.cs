@@ -40,7 +40,7 @@ namespace EmoteScriptLib.JSON
         {
             type = (uint)emote.Type;
             delay = emote.Delay ?? 0.0f;
-            extent = emote.Extent ?? 1.0f;
+            extent = emote.Extent ?? (emote.Type == Entity.Enum.EmoteType.Say ? 0.0f : 1.0f);
             amount = (uint?)emote.Amount;
             motion = (uint?)emote.Motion;
             msg = emote.Message;

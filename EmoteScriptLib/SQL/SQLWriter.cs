@@ -58,7 +58,7 @@ namespace EmoteScriptLib.SQL
 
                 var typeStr = $"{(int)emote.Type} /* {emote.Type} */";
                 var delay = emote.Delay?.ToString() ?? "0";
-                var extent = emote.Extent?.ToString() ?? "1";
+                var extent = emote.Extent?.ToString() ?? (emote.Type == EmoteType.Say ? "0" : "1");
                 var motionStr = emote.Motion != null ? $"0x{(uint)emote.Motion:X8} /* {emote.Motion} */" : "NULL";
                 var message = GetSQLString(emote.Message);
                 var testString = GetSQLString(emote.TestString);
