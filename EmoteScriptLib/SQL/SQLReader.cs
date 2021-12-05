@@ -135,7 +135,20 @@ namespace EmoteScriptLib.SQL
                 }
                 var value = GetValueType(prop, fields[i]);
 
-                if (DefaultValues.TryGetValue(propName, out var defaultValue) && value.ToString().Equals(defaultValue))
+                // special handling for default extent based on emote type
+                if (propName.Equals("Extent"))
+                {
+                    var defaultExtent = "1";
+
+                    var typeIdx = currentColumns.IndexOf("type");
+
+                    if (typeIdx != -1 && fields[typeIdx] == "8")  // EmoteType.Say
+                        defaultExtent = "0";
+
+                    if (value.ToString().Equals(defaultExtent))
+                        continue;
+                }
+                else if (DefaultValues.TryGetValue(propName, out var defaultValue) && value.ToString().Equals(defaultValue))
                     continue;
 
                 prop.SetValue(record, value, null);

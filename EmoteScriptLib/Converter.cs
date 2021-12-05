@@ -260,6 +260,7 @@ namespace EmoteScriptLib
 
             var indent = string.Concat(Enumerable.Repeat("    ", depth));
 
+            // TODO: detect when fields are used outside of fluent syntax, and fallback on kvp syntax
             scriptLines.Add($"{indent}- {emote.ToString(true)}");
 
             if (emote.Branches != null)
