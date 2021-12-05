@@ -856,7 +856,7 @@ namespace EmoteScriptLib
             {
                 // heading
                 var rads = DegreesToRads(degrees);
-                return Quaternion.CreateFromAxisAngle(Vector3.UnitY, rads);
+                return Quaternion.CreateFromAxisAngle(Vector3.UnitZ, rads);
             }
             
             var match = Regex.Match(rotStr, @"([\d.-]+) ([\d.-]+) ([\d.-]+) ([\d.-]+)");
