@@ -1,3 +1,5 @@
+This is now a local fork, and might be oudated. Please use the main repo, which is now located at https://github.com/ACEmulator/EmoteScript
+
 # EmoteScript
 A simple scripting language for Asheron's Call emotes
 
