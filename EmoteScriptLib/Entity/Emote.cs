@@ -680,7 +680,7 @@ namespace EmoteScriptLib
                     return $"{((Skill)Stat).ToSentence()}, {Amount:N0}";
 
                 case EmoteType.CreateTreasure:
-                    return $"Type: {TreasureType}, Class: {TreasureClass}, WealthRating: {WealthRating}";
+                    return $"TreasureType: {TreasureType}, TreasureClass: {TreasureClass}, WealthRating: {WealthRating}";
 
                 case EmoteType.SetFloatStat:
                     return $"{(PropertyFloat)Stat}, {Percent}";

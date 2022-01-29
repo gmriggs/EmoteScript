@@ -11,11 +11,13 @@ namespace EmoteScriptLib.Emotes
 
         }
         
-        public CreateTreasure(int? tier = null)
+        public CreateTreasure(int? treasureType = null, int? treasureClass = null, int? wealthRating = null)
 
             : base(EmoteType.CreateTreasure)
         {
-            WealthRating = tier;
+            TreasureType = treasureType;        // TreasureItemCategory (Item / MagicItem / MundaneItem)
+            TreasureClass = treasureClass;      // TreasureItemType_Orig
+            WealthRating = wealthRating;        // tier
         }
     }
 }
